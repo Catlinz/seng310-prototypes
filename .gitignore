@@ -4,6 +4,7 @@
 # to generate your .gitignore file.
 
 # web application files
+/web-app/plugins
 /web-app/WEB-INF/classes
 
 # default HSQL database files for production mode
@@ -12,11 +13,13 @@
 # general HSQL database files
 *Db.properties
 *Db.script
+/*DB.*
 
 # logs
-/stacktrace.log
+stacktrace.log
 /test/reports
 /logs
+/*.log
 
 # project release file
 /*.war
@@ -31,3 +34,27 @@
 
 # "temporary" build files
 /target
+/out/
+build/
+
+# The sass plugin stuff
+.jruby-container/
+grails-app/assets/.sass-cache/
+
+/.link_to_grails_plugins/
+/target-eclipse/
+*.iws
+.settings
+/cobertura.ser
+.DS_Store
+.gradle
+Thumbs.db
+
+# IDE specified stuff
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.settings
+.classpath
