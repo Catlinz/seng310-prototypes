@@ -1,0 +1,71 @@
+.filters
+  color: #66686a
+  background: #f4f4f4
+  .gm-scroll_wrapper
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 40px
+  #filters-content
+    padding: 0 10px
+  h2
+    margin: 0
+    padding: 5px 0 0 0
+    font-weight: 600
+    font-size: 13pt
+  .filter
+    font-size: 10pt
+    border-bottom: 1px solid rgba(0,0,0,0.1)
+    padding: 10px 8px
+    h3
+      font-size: 11pt
+      margin: 0
+      padding: 0
+      font-weight: bold
+    .range
+      .slider
+        margin-top: 5px
+        height: 24px
+        position: relative
+        .bar
+          position: absolute
+          left: 12px
+          right: 12px
+          top: 9px
+          bottom: 9px
+          background: #009bff
+          +border-radius(5px)
+        .start, .end
+          position: absolute
+          top: 0
+          display: block
+          width: 22px
+          height: 22px
+          background: #eeeeee
+          border: 1px solid #c0c0c0
+          +border-radius(12px)
+          +box-shadow(0 2px 3px 0 rgba(0,0,0,0.1))
+        .start
+          left: 0
+        .end
+          right: 0
+  .buttons
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 0
+    height: 40px
+    border-top: 1px solid rgba(0,0,0,0.1)
+    +border-radius(0 0 4px 4px)
+    background: #e7e7e7
+    a
+      line-height: 40px
+      display: block
+      height: 40px
+    .cancel
+      padding-left: 14px
+      float: left
+    .apply
+      padding-right: 14px
+      float: right

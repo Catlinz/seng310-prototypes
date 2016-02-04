@@ -1,0 +1,54 @@
+@import "../core/_defn"
+@import "../core/_mixins"
+
+.gm-input-row
+  clear: both
+  &.two
+    .gm-input
+      width: 48%
+      clear: none
+      &.first
+        float: left
+      &.last
+        float: right
+        clear: right
+  &.input-box
+    .gm-input
+      float: left
+      border-right: 0
+    .gm-button
+      float: right
+      border-left: 0
+
+.gm-input
+  position: relative
+  font-size: 18px
+  background: #eaecee
+  border: 1px solid #b6b7b8
+  padding: 5px
+  clear: both
+  margin: 10px 0
+  +box-sizing(border-box)
+  &.focused
+    border-color: #3b7eb7
+    background: white
+  input, textarea
+    font-family: $GM_DEFAULT_FONTS
+    font-size: 18px
+    background: transparent
+    border: 0
+    padding: 0
+    width: 100%
+    outline: none !important
+    display: block
+    +box-sizing(border-box)
+  textarea
+    resize: none
+  label
+    display: block
+    position: absolute
+    top: 5px
+    left: 5px
+    color: #a0a2a4
+    cursor: text
+    +no-select

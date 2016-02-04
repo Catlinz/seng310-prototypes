@@ -1,0 +1,52 @@
+@import "../core/_mixins"
+
+.button
+  position: relative
+  padding: 8px 14px
+  font-size: 14px
+  text-align: center
+  color: white
+  +cursor-pointer
+  &.red
+    background: url("/assets/ui/red_button.png") no-repeat right bottom
+    background-size: 250px 100px
+  &.blue
+    background: url("/assets/ui/blue_button.png") no-repeat right bottom
+    background-size: 250px 100px
+
+a.button
+  text-decoration: none
+  &:hover
+    background-position: right 0 bottom -50px
+    color: white
+    &.arrow
+      &.red
+        &:before
+          border-color: #a82222 #a82222 #a82222 white
+      &.blue
+        &:before
+          border-color: #3b7eb7 #3b7eb7 #3b7eb7 white
+
+
+
+.button.arrow
+  padding: 8px 32px 8px 14px
+  &::before
+    content: ''
+    width: 0
+    height: 0
+    font-size: 0 !important
+    line-height: 0
+    top: 12px
+    right: 9px
+    border: 6px solid white
+    position: absolute
+    display: block
+    border-width: 6px 0 6px 10px
+  &.red
+    &:before
+      border-color: #dc2d2d #dc2d2d #dc2d2d white
+  &.blue
+    &:before
+      border-color: #2f5f87 #2f5f87 #2f5f87 white
+

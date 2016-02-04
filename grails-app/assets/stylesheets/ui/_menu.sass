@@ -1,0 +1,35 @@
+.gm-menu-toggle
+  +cursor-pointer
+
+.gm-menu
+  display: none
+  background: white
+  border: 1px solid #caccce
+  position: absolute
+  padding: 5px 0
+  margin-top: 5px
+  font-size: 11pt
+  z-index: 200
+  +box-shadow(0 6px 12px 0 rgba(0,0,0,0.15))
+  &.fixed
+    position: fixed
+  &.arrow
+    &:after
+      content: ''
+      position: absolute
+      top: -9px
+      right: 0
+      background: url('/assets/ui/menu-white-top@2x.png') no-repeat bottom center
+      background-size: 17px 9px
+      width: 100%
+      height: 9px
+      font-size: 0
+      line-height: 0
+    &.right
+      &:after
+        right: 16px
+        width: 17px
+    &.left
+      &:after
+        left: 16px
+        width: 17px

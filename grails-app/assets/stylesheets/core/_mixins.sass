@@ -1,0 +1,33 @@
+@import "compass/css3"
+
+=cursor-pointer
+  cursor: pointer
+  cursor: hand
+
+=no-select
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+/** Alpha is specified as [0-1] */
+=all-opacity($alpha)
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$alpha*100})"
+  filter: alpha(opacity=#{$alpha*100})
+  -moz-opacity: $alpha
+  -khtml-opacity: $alpha
+  opacity: $alpha
+
+=retina-background($img, $width, $height)
+  $hw: $width / 2
+  $hh: $height / 2
+  width: $hw
+  height: $hh
+  background-repeat: no-repeat
+  background-image: url("#{$img}@2x.png")
+  -webkit-background-size: #hw $hh
+  -moz-background-size: #hw $hh
+  -o-background-size: #hw $hh
+  background-size: #hw $hh

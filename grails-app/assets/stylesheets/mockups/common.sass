@@ -1,0 +1,142 @@
+@import ../core/_core
+@import ../core/_forms
+@import ../ui/all
+@import defn
+
+html
+  overflow: auto
+body
+  background: $APP_BG_COLOR
+
+html, body
+  height: 100%
+
+#map
+  height: 100%
+  width: 100%
+  position: absolute
+  top: 0
+  left: 0
+  .leaflet-bottom
+    z-index: 10
+    bottom: 36px
+  .leaflet-control-zoom
+    display: none
+
+.map-icon
+  font-size: 16pt
+  font-weight: 600
+  text-align: center
+  line-height: 1.2
+  background: url('/assets/marker-icon-2x.png') no-repeat center center
+  background-size: 25px 41px
+  overflow: visible
+  position: relative
+  color: white
+  font-family: $GM_DEFAULT_FONTS !important
+
+#screen-container
+  width: 320px
+  height: 480px
+  position: relative
+  overflow: hidden
+
+.screen
+  display: none
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+
+  overflow: hidden
+  z-index: 1
+  .gm-scroll_scrollbar
+    width: 4px
+    right: 5px
+    background: transparent
+  .gm-scroll_handle
+    right: -2px
+    background: #56585a
+    +border-radius(5px)
+    width: 8px
+  &.active, &.over, &.under
+    display: block
+  &.active
+    z-index: 300
+  &.over
+    z-index: 400
+  &.under
+    z-index: 200
+
+#search-bar, #search-bar-nomap
+  position: absolute
+  top: 5px
+  left: 5px
+  right: 5px
+  background: rgba(255, 255, 255, 0.9)
+  +border-radius(4px)
+  +box-shadow(0 0 5px 0 rgba(0,0,0, 0.3))
+  z-index: 21
+  form
+    margin: 0 44px
+  input[type=text], label
+    font-size: 13pt
+    line-height: 22px
+    padding: 0
+    margin: 0
+    height: 22px
+    +box-sizing(content-box)
+  .gm-input
+    float: none
+    height: auto
+    margin: 0
+    padding: 14px 0
+    border: 0
+    background: transparent
+    input[type=text]:first-line
+      display: inline-block
+    label
+      top: 14px
+      left: 0
+  .search-icon, .clear-search
+    position: absolute
+    width: 24px
+    height: 50px
+    top: 0
+    +all-opacity(0.4)
+  .search-icon
+    left: 10px
+    background: url('/assets/ui/icons/search-24b100@2x.png') no-repeat left center
+    background-size: 24px 24px
+  .clear-search
+    font-size: 30pt
+    font-weight: bold
+    right: 10px
+    line-height: 50px
+    display: none
+    color: black
+    &.visible
+      display: block
+
+.show-filters
+  position: absolute
+  display: block
+  z-index: 20
+  top: 60px
+  right: 5px
+  padding: 5px
+  background: rgba(255, 255, 255, 0.9)
+  +border-radius(4px)
+  +box-shadow(0 0 5px 0 rgba(0,0,0, 0.3))
+  .icon
+    display: block
+    background: url('/assets/ui/icons/filter-24b100@2x.png') no-repeat center center
+    background-size: 24px 24px
+    width: 24px
+    height: 24px
+    +all-opacity(0.5)
+
+
+@media (max-width: 400px), (max-height: 400px)
+  @import iphone

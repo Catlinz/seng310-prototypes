@@ -1,0 +1,42 @@
+@import "../core/_mixins"
+@import "../core/_defn"
+
+.gm-spinner
+  display: none
+  position: absolute
+  z-index: 300
+  .gms-dot
+    position: absolute
+    background: #d0d0d0
+    +transition(background 500ms ease-out)
+    &.current
+      background: #009bff
+      +transition(background 100ms)
+  &.small
+    left: 30%
+    .gms-dot
+      width: 10px
+      height: 10px
+      +border-radius(10px)
+  &.medium
+    left: 25%
+    .gms-dot
+      width: 10px
+      height: 10px
+      +border-radius(15px)
+  &.large
+    left: 5%
+    .gms-dot
+      width: 10px
+      height: 10px
+      +border-radius(16px)
+.gm-spinner-block
+  display: none
+  position: absolute
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  background: white
+  +all-opacity(0.5)
+  z-index: 250

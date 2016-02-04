@@ -1,0 +1,65 @@
+@import "../core/_core"
+@import "buttons"
+@import "defn"
+
+.gm-app-message
+  position: fixed
+  z-index: 500
+  display: none
+  border: 1px solid
+  font-size: 13px
+  .gmam-title
+    font-weight: 700
+  .gmam-message
+  a.gmam-close
+    font-size: 16px
+    font-weight: bold
+    position: absolute
+    right: 0
+    line-height: 1
+
+  &.error
+    color: $UI_ERR_COLOR
+    background: $UI_ERR_BG
+    border-color: $UI_ERR_BORDER
+    a.gmam-close
+      color: #D48B8B
+      &:hover
+        color: #B13030
+  &.warning
+    color: $UI_WARN_COLOR
+    background: $UI_WARN_BG
+    border-color: $UI_WARN_BORDER
+    a.gmam-close
+      color: #CCA27E
+      &:hover
+        color: #9C612F
+  &.message
+    color: $UI_MSG_COLOR
+    background: $UI_MSG_BG
+    border-color: $UI_MSG_BORDER
+    a.gmam-close
+      color: #8BAAD8
+      &:hover
+        color: #4575BD
+  &.success
+    color: $UI_SUCCESS_COLOR
+    background: $UI_SUCCESS_BG
+    border-color: $UI_SUCCESS_BORDER
+    a.gmam-close
+      color: #7DC77B
+      &:hover
+        color: #2B8828
+  &.slide
+    padding: 6px 14px 4px 12px
+    a.gmam-close
+      top: -1px
+      padding: 0 2px 2px 2px
+    &.top
+      top: 0
+      border-top: 0
+    &.bottom
+      bottom: 0
+      border-bottom: 0
+
+

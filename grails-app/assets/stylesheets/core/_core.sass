@@ -1,0 +1,43 @@
+@import defn
+@import mixins
+
+body
+  margin: 0
+  padding: 0
+  font-family: $GM_DEFAULT_FONTS
+  &.ie6
+    font-size: 10px
+
+.body-wrapper
+  min-height: 100%
+  position: relative
+
+a
+  text-decoration: none
+  color: $GM_LINK_COLOR
+  +cursor-pointer
+  &:hover
+    color: #3b4b72
+
+
+.clear
+  width: 100%
+  height: 1px
+  clear: both
+  float: none
+
+#gm-page-block
+  display: none
+  +all-opacity(0)
+  background: white
+  position: absolute
+  z-index: 500
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+body.gm-page-block
+  overflow: hidden !important
+  #gm-page-block
+    display: block
