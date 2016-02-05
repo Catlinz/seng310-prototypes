@@ -578,22 +578,22 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="276.94701"
-     inkscape:cy="892.56422"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="335.25916"
+     inkscape:cy="928.60235"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1589"
      inkscape:window-height="703"
-     inkscape:window-x="1917"
-     inkscape:window-y="316"
+     inkscape:window-x="1823"
+     inkscape:window-y="299"
      inkscape:window-maximized="0"
      inkscape:object-paths="false"
      inkscape:snap-intersection-paths="false"
      inkscape:object-nodes="false"
      inkscape:snap-smooth-nodes="false"
-     showguides="true"
+     showguides="false"
      inkscape:snap-object-midpoints="false"
      inkscape:snap-center="false"
      inkscape:snap-midpoints="false"
@@ -2237,27 +2237,100 @@
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="sccccsss" />
+    <g
+       id="g9960">
+      <rect
+         inkscape:export-ydpi="180"
+         inkscape:export-xdpi="180"
+         inkscape:export-filename="E:\git\seng310-prototypes\grails-app\assets\images\ui\icons\directions-32bl100@2x.png"
+         style="opacity:1;fill:#3d80e0;fill-opacity:1;stroke:none;stroke-width:4.4164362;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect4452"
+         width="23.31958"
+         height="23.31958"
+         x="58.552147"
+         y="307.93964"
+         rx="1.1841974"
+         ry="1.1841974"
+         transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)" />
+      <path
+         inkscape:export-ydpi="180"
+         inkscape:export-xdpi="180"
+         inkscape:export-filename="E:\git\seng310-prototypes\grails-app\assets\images\ui\icons\directions-32bl100@2x.png"
+         id="path4454"
+         d="m 273.97746,168.58035 c -1.43586,-0.75958 1.26129,4.70716 1.26129,4.70716 -6.64711,1.78109 -6.6018,3.99328 -6.6018,10.89172 l 3.30678,0 c 0,-5.40373 0.0144,-6.32354 4.2173,-7.44973 0,0 0.39757,6.08292 1.26128,4.70717 0,0 5.56369,-6.92657 5.20021,-8.28307 -0.36347,-1.35651 -8.64506,-4.57325 -8.64506,-4.57325 z"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="sccccsss" />
+    </g>
     <rect
-       transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)"
-       ry="1.1841974"
-       rx="1.1841974"
-       y="307.93964"
-       x="58.552147"
-       height="23.31958"
-       width="23.31958"
-       id="rect4452"
-       style="opacity:1;fill:#3d80e0;fill-opacity:1;stroke:none;stroke-width:4.4164362;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       inkscape:export-filename="E:\git\seng310-prototypes\grails-app\assets\images\ui\icons\directions-32bl100@2x.png"
-       inkscape:export-xdpi="180"
-       inkscape:export-ydpi="180" />
-    <path
-       sodipodi:nodetypes="sccccsss"
-       inkscape:connector-curvature="0"
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 273.97746,168.58035 c -1.43586,-0.75958 1.26129,4.70716 1.26129,4.70716 -6.64711,1.78109 -6.6018,3.99328 -6.6018,10.89172 l 3.30678,0 c 0,-5.40373 0.0144,-6.32354 4.2173,-7.44973 0,0 0.39757,6.08292 1.26128,4.70717 0,0 5.56369,-6.92657 5.20021,-8.28307 -0.36347,-1.35651 -8.64506,-4.57325 -8.64506,-4.57325 z"
-       id="path4454"
-       inkscape:export-filename="E:\git\seng310-prototypes\grails-app\assets\images\ui\icons\directions-32bl100@2x.png"
-       inkscape:export-xdpi="180"
-       inkscape:export-ydpi="180" />
+       y="116.32619"
+       x="292.88824"
+       height="32"
+       width="32"
+       id="rect10800"
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <g
+       id="g10808"
+       transform="matrix(1.0110608,0,0,1.0346886,-3.3776964,-3.9517844)">
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path10804"
+         d="m 306.56555,120.64115 -11.06802,11.06801 11.06802,11.06802"
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:4.87592649;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path10806"
+         d="m 295.49753,131.70916 26.70457,0"
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:4.87592649;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect12091"
+       width="32"
+       height="32"
+       x="325.94891"
+       y="116.32619" />
+    <g
+       id="g12103"
+       style="stroke-width:6;stroke-miterlimit:4;stroke-dasharray:none"
+       transform="matrix(1.1251294,0,0,1.1047814,-42.313144,-13.865326)">
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 352.71743,120.87424 -11.19044,11.45194 11.19044,11.45196"
+         id="path12095"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccc" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path12101"
+         d="m 330.33655,120.87424 11.19044,11.45194 -11.19044,11.45196"
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <rect
+       y="116.32619"
+       x="359.09796"
+       height="32"
+       width="32"
+       id="rect12128"
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <g
+       id="g12138"
+       transform="matrix(0.94310162,0,0,1.0196486,21.375496,-1.2480191)">
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path12132"
+         d="m 388.65751,119.67429 -14.59069,22.65189"
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:6.68945408;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:6.68945408;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 361.47612,129.67429 12.5907,12.65189"
+         id="path12134"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+    </g>
   </g>
 </svg>
