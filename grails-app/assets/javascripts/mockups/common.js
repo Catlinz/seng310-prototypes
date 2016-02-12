@@ -3,6 +3,7 @@
 //=require ../core/scroll.js
 //=require ../core/menu.js
 //=require ../core/dialog.js
+//=require map
 //=require core
 //=require_self
 
@@ -57,6 +58,7 @@ EventList.prototype = {
 
     fire: function(action) { this.h.fire(action); },
     getCode: function(index) { return EventList.Codes[index]; },
+    indexOf: function(code) { return EventList.Codes.indexOf(code); },
     off: function(action) { this.h.off(action); },
     on: function(action, func) { return this.h.on(action, func); }
 
@@ -114,9 +116,7 @@ var Screen = {
     },
     height: function() { return parseInt($('.screen.active').innerHeight()); },
 
-    init: function() {
-        Screen.findAndAttachLinks();
-    },
+    init: function() { Screen.findAndAttachLinks();},
 
     onShow: function(screen) {
         if (Core.screens[screen] && Core.screens[screen].onShow) {
@@ -127,72 +127,6 @@ var Screen = {
     width: function() { return parseInt($('.screen.active').innerWidth()); }
 };
 
-
-function Map(id, latlng, initialZoom) {
-    if (!latlng) { latlng = Map.defaultLocation; }
-    if (!initialZoom) { initialZoom = 14; }
-
-    this.map = L.map(id).setView(latlng, initialZoom);
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-        maxZoom: 18
-    }).addTo(this.map);
-
-    this.location = latlng;
-    this.markers = [];
-
-    this.onMarkerClicked = null;
-    this.locationIcon = L.icon({ iconUrl: '/assets/location-icon.png', iconRetinaUrl: '/assets/location-icon-2x.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [0, -41]
-    });
-
-    this.locMarker = L.marker(this.location, {icon: this.locationIcon}).addTo(this.map);
-    var _this = this;
-    this.locMarker.on("click", function() { _this.centerOnLocation(); })
-}
-
-Map.prototype = {
-    constructor: Map,
-
-    clearEventMarkers: function() {
-        for (var i = 0; i < this.markers.length; ++i) {
-            this.map.removeLayer(this.markers[i]);
-        }
-        this.markers = [];
-    },
-
-    addEventMarkers: function(list) {
-        for (var i = 0; i < list.length; ++i) {
-            this.addEventMarker(list.at(i));
-        }
-    },
-
-    centerOnMarker: function(index) {
-        if (!index) { index = 0; }
-        var m = this.markers[index];
-        this.map.setView(m.getLatLng());
-    },
-
-    centerOnLocation: function() {
-        this.map.setView(this.location);
-    },
-
-    addEventMarker: function(event) {
-        var marker = L.marker(event.latlng, {icon: this.eventIcon(event.code)}).addTo(this.map);
-        var _this = this;
-        marker.on("click", function(e) { if (_this.onMarkerClicked) { _this.onMarkerClicked(event.code);} });
-        this.markers.push(marker);
-    },
-
-    eventIcon: function(code) {
-        return L.divIcon({className: 'map-icon', iconSize: [50, 41], iconAnchor: [25, 41], popupAnchor: [0, -41], html:'<span class="letter">'+code+'</span>'});
-    }
-};
-
-Map.defaultLocation = [48.441216117602345, -123.3530330657959];
-
 var Core = {
     events: new EventList(),
     map: null,
@@ -200,16 +134,16 @@ var Core = {
 };
 
 var Location = {
-    random: function(lat, lng, radiusMetres) {
+    random: function(latlng, radiusMetres) {
         var w = (radiusMetres / 111000.0) * Math.sqrt(Math.random());
         var t = 2 * Math.PI * Math.random();
         var x = w * Math.cos(t);
         var y = w * Math.sin(t);
 
         // Adjust for shrinking east-west distances
-        x = x / Math.cos(lng);
+        x = x / Math.cos(latlng.lng);
 
-        return [x + lat, y + lng];
+        return {lat: x + latlng.lat, lng: y + latlng.lng};
     }
 };
 
@@ -223,49 +157,49 @@ $(document).ready(function() {
         {
             title: "Cool Event",
             locale: "Some Place",
-            latlng: Location.random(Map.defaultLocation[0], Map.defaultLocation[1], 1000),
+            latlng: Location.random(Map.defaultLocation, 1000),
             address: "3333 Some Rd, Victoria",
             hours: ["11pm", "2am"]
         },
         {
             title: "Other Event",
             locale: "Diff Place",
-            latlng: Location.random(Map.defaultLocation[0], Map.defaultLocation[1], 1000),
+            latlng: Location.random(Map.defaultLocation, 1000),
             address: "4322 Other Rd, Saanich",
             hours: ["11pm", "2am"]
         },
         {
             title: "Other Event",
             locale: "Diff Place",
-            latlng: Location.random(Map.defaultLocation[0], Map.defaultLocation[1], 1000),
+            latlng: Location.random(Map.defaultLocation, 1000),
             address: "4322 Other Rd, Saanich",
             hours: ["11pm", "2am"]
         },
         {
             title: "Other Event",
             locale: "Diff Place",
-            latlng: Location.random(Map.defaultLocation[0], Map.defaultLocation[1], 1000),
+            latlng: Location.random(Map.defaultLocation, 1000),
             address: "4322 Other Rd, Saanich",
             hours: ["11pm", "2am"]
         },
         {
             title: "Other Event",
             locale: "Diff Place",
-            latlng: Location.random(Map.defaultLocation[0], Map.defaultLocation[1], 1000),
+            latlng: Location.random(Map.defaultLocation, 1000),
             address: "4322 Other Rd, Saanich",
             hours: ["11pm", "2am"]
         },
         {
             title: "Other Event",
             locale: "Diff Place",
-            latlng: Location.random(Map.defaultLocation[0], Map.defaultLocation[1], 1000),
+            latlng: Location.random(Map.defaultLocation, 1000),
             address: "4322 Other Rd, Saanich",
             hours: ["11pm", "2am"]
         },
         {
             title: "Other Event",
             locale: "Diff Place",
-            latlng: Location.random(Map.defaultLocation[0], Map.defaultLocation[1], 1000),
+            latlng: Location.random(Map.defaultLocation, 1000),
             address: "4322 Other Rd, Saanich",
             hours: ["11pm", "2am"]
         }

@@ -1,0 +1,21 @@
+.screen.map
+  background: white
+  .top-bar
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+  #map
+    .leaflet-bottom
+      bottom: $APP_NAV_BOTTOM_HEIGHT
+  .bottom-nav-bar
+    height: $APP_NAV_BOTTOM_HEIGHT
+    border: 0
+    +box-shadow(0 0 5px 0 rgba(0, 0, 0, 0.3))
+    .hidden
+      display: none
+    .default-nav, .result-nav
+      height: $APP_NAV_BOTTOM_HEIGHT - 2px
+      padding: 1px 0
+    .result-nav
+      +all-opacity(0)

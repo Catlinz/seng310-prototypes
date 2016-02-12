@@ -1,0 +1,91 @@
+.screen.home
+  background: url('/assets/prototype02/home_bg.jpg') no-repeat top left
+  background-size: cover
+
+  .logo
+    height: 180px
+    position: absolute
+    top: 48px
+    left: 0
+    right: 0
+    img
+      display: block
+      width: 308px
+      height: 180px
+      margin: 0 auto
+
+
+.home-search
+  background: rgba(0,0,0, 0.3)
+  padding: 30px 10px
+  margin-top: 260px
+  input[type=submit]
+    display: none
+  .search-line
+    position: relative
+    height: 32px
+    background: white
+    +border-radius(4px)
+    .gm-input
+      height: 32px
+      padding: 0 5px
+      margin: 0 75px 0 0
+      border: 0
+      background: transparent
+      input[type=text], label
+        font-size: 11pt
+        height: 32px
+        line-height: 32px
+      label
+        top: 0
+  .search-btn
+    display: block
+    position: absolute
+    top: 0
+    right: 0
+    width: 75px
+    height: 32px
+    +border-radius(0 4px 4px 0)
+    background: #ed9d00
+    font-weight: 600
+    text-align: center
+    line-height: 32px
+    color: white
+    font-size: 11pt
+.or-text
+  font-size: 15pt
+  text-align: center
+  color: #767571
+  font-weight: bold
+  padding: 10px
+a.see-map
+  display: block
+  width: 200px
+  font-size: 13pt
+  font-weight: 600
+  padding: 10px 0
+  background: #539cd1
+  +border-radius(4px)
+  text-align: center
+  margin: 0 auto
+  color: #ddebf6
+
+@media (max-height: 400px)
+  .screen.home
+    background: url('/assets/prototype02/home_bg.jpg') no-repeat top left
+    background-size: cover
+    .logo
+      height: 154px
+      top: 28px
+      img
+        width: 154px
+        height: 90px
+  .home-search
+    margin-top: 132px
+    padding: 26px
+  .or-text
+    font-size: 14pt
+    padding: 6px
+  a.see-map
+    width: 175px
+    font-size: 11pt

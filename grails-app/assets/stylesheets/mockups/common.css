@@ -521,7 +521,7 @@ html {
 
 /* line 8, common.sass */
 body {
-  background: #e3e7e9;
+  background: white;
 }
 
 /* line 11, common.sass */
@@ -536,18 +536,19 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
+  -webkit-tap-highlight-color: transparent;
 }
-/* line 20, common.sass */
+/* line 21, common.sass */
 #map .leaflet-bottom {
   z-index: 10;
   bottom: 36px;
 }
-/* line 23, common.sass */
+/* line 24, common.sass */
 #map .leaflet-control-zoom {
   display: none;
 }
 
-/* line 26, common.sass */
+/* line 27, common.sass */
 .map-icon {
   font-size: 16pt;
   font-weight: 600;
@@ -561,15 +562,16 @@ html, body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
-/* line 38, common.sass */
+/* line 39, common.sass */
 #screen-container {
   width: 320px;
   height: 568px;
   position: relative;
   overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* line 44, common.sass */
+/* line 46, common.sass */
 .screen {
   display: none;
   position: absolute;
@@ -577,16 +579,17 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
+  -webkit-tap-highlight-color: transparent;
   overflow: hidden;
   z-index: 1;
 }
-/* line 54, common.sass */
+/* line 56, common.sass */
 .screen .gm-scroll_scrollbar {
   width: 4px;
   right: 5px;
   background: transparent;
 }
-/* line 58, common.sass */
+/* line 60, common.sass */
 .screen .gm-scroll_handle {
   right: -2px;
   background: #56585a;
@@ -595,131 +598,21 @@ html, body {
   border-radius: 5px;
   width: 8px;
 }
-/* line 63, common.sass */
+/* line 65, common.sass */
 .screen.active, .screen.over, .screen.under {
   display: block;
 }
-/* line 65, common.sass */
+/* line 67, common.sass */
 .screen.active {
   z-index: 300;
 }
-/* line 67, common.sass */
+/* line 69, common.sass */
 .screen.over {
   z-index: 400;
 }
-/* line 69, common.sass */
+/* line 71, common.sass */
 .screen.under {
   z-index: 200;
-}
-
-/* line 72, common.sass */
-#search-bar, #search-bar-nomap {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  background: rgba(255, 255, 255, 0.9);
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-  z-index: 21;
-}
-/* line 81, common.sass */
-#search-bar form, #search-bar-nomap form {
-  margin: 0 44px;
-}
-/* line 83, common.sass */
-#search-bar input[type=text], #search-bar label, #search-bar-nomap input[type=text], #search-bar-nomap label {
-  font-size: 13pt;
-  line-height: 22px;
-  padding: 0;
-  margin: 0;
-  height: 22px;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-}
-/* line 90, common.sass */
-#search-bar .gm-input, #search-bar-nomap .gm-input {
-  float: none;
-  height: auto;
-  margin: 0;
-  padding: 14px 0;
-  border: 0;
-  background: transparent;
-}
-/* line 97, common.sass */
-#search-bar .gm-input input[type=text]:first-line, #search-bar-nomap .gm-input input[type=text]:first-line {
-  display: inline-block;
-}
-/* line 99, common.sass */
-#search-bar .gm-input label, #search-bar-nomap .gm-input label {
-  top: 14px;
-  left: 0;
-}
-/* line 102, common.sass */
-#search-bar .search-icon, #search-bar .clear-search, #search-bar-nomap .search-icon, #search-bar-nomap .clear-search {
-  position: absolute;
-  width: 24px;
-  height: 50px;
-  top: 0;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
-  filter: alpha(opacity=40);
-  -moz-opacity: 0.4;
-  -khtml-opacity: 0.4;
-  opacity: 0.4;
-}
-/* line 108, common.sass */
-#search-bar .search-icon, #search-bar-nomap .search-icon {
-  left: 10px;
-  background: url("/assets/ui/icons/search-24b100@2x.png") no-repeat left center;
-  background-size: 24px 24px;
-}
-/* line 112, common.sass */
-#search-bar .clear-search, #search-bar-nomap .clear-search {
-  font-size: 30pt;
-  font-weight: bold;
-  right: 10px;
-  line-height: 50px;
-  display: none;
-  color: black;
-}
-/* line 119, common.sass */
-#search-bar .clear-search.visible, #search-bar-nomap .clear-search.visible {
-  display: block;
-}
-
-/* line 122, common.sass */
-.show-filters {
-  position: absolute;
-  display: block;
-  z-index: 20;
-  top: 60px;
-  right: 5px;
-  padding: 5px;
-  background: rgba(255, 255, 255, 0.9);
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-}
-/* line 132, common.sass */
-.show-filters .icon {
-  display: block;
-  background: url("/assets/ui/icons/filter-24b100@2x.png") no-repeat center center;
-  background-size: 24px 24px;
-  width: 24px;
-  height: 24px;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: alpha(opacity=50);
-  -moz-opacity: 0.5;
-  -khtml-opacity: 0.5;
-  opacity: 0.5;
 }
 
 @media (max-width: 400px), (max-height: 400px) {

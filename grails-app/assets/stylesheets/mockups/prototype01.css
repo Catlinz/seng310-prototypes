@@ -209,7 +209,117 @@
   background: white;
 }
 
-/* line 4, prototype01/_map.sass */
+/* line 5, prototype01/_map.sass */
+#search-bar, #search-bar-nomap {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  z-index: 21;
+}
+/* line 14, prototype01/_map.sass */
+#search-bar form, #search-bar-nomap form {
+  margin: 0 44px;
+}
+/* line 16, prototype01/_map.sass */
+#search-bar input[type=text], #search-bar label, #search-bar-nomap input[type=text], #search-bar-nomap label {
+  font-size: 13pt;
+  line-height: 22px;
+  padding: 0;
+  margin: 0;
+  height: 22px;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+/* line 23, prototype01/_map.sass */
+#search-bar .gm-input, #search-bar-nomap .gm-input {
+  float: none;
+  height: auto;
+  margin: 0;
+  padding: 14px 0;
+  border: 0;
+  background: transparent;
+}
+/* line 30, prototype01/_map.sass */
+#search-bar .gm-input input[type=text]:first-line, #search-bar-nomap .gm-input input[type=text]:first-line {
+  display: inline-block;
+}
+/* line 32, prototype01/_map.sass */
+#search-bar .gm-input label, #search-bar-nomap .gm-input label {
+  top: 14px;
+  left: 0;
+}
+/* line 35, prototype01/_map.sass */
+#search-bar .search-icon, #search-bar .clear-search, #search-bar-nomap .search-icon, #search-bar-nomap .clear-search {
+  position: absolute;
+  width: 24px;
+  height: 50px;
+  top: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+  filter: alpha(opacity=40);
+  -moz-opacity: 0.4;
+  -khtml-opacity: 0.4;
+  opacity: 0.4;
+}
+/* line 41, prototype01/_map.sass */
+#search-bar .search-icon, #search-bar-nomap .search-icon {
+  left: 10px;
+  background: url("/assets/ui/icons/search-24b100@2x.png") no-repeat left center;
+  background-size: 24px 24px;
+}
+/* line 45, prototype01/_map.sass */
+#search-bar .clear-search, #search-bar-nomap .clear-search {
+  font-size: 30pt;
+  font-weight: bold;
+  right: 10px;
+  line-height: 50px;
+  display: none;
+  color: black;
+}
+/* line 52, prototype01/_map.sass */
+#search-bar .clear-search.visible, #search-bar-nomap .clear-search.visible {
+  display: block;
+}
+
+/* line 55, prototype01/_map.sass */
+.show-filters {
+  position: absolute;
+  display: block;
+  z-index: 20;
+  top: 60px;
+  right: 5px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+/* line 65, prototype01/_map.sass */
+.show-filters .icon {
+  display: block;
+  background: url("/assets/ui/icons/filter-24b100@2x.png") no-repeat center center;
+  background-size: 24px 24px;
+  width: 24px;
+  height: 24px;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+}
+
+/* line 73, prototype01/_map.sass */
 #event-list {
   position: absolute;
   z-index: 20;
@@ -222,7 +332,7 @@
   height: 32px;
   background: rgba(255, 255, 255, 0.9);
 }
-/* line 13, prototype01/_map.sass */
+/* line 82, prototype01/_map.sass */
 #event-list .toggle {
   display: block;
   height: 32px;
@@ -234,12 +344,12 @@
   -khtml-opacity: 0.5;
   opacity: 0.5;
 }
-/* line 20, prototype01/_map.sass */
+/* line 89, prototype01/_map.sass */
 #event-list.expanded .toggle {
   background-image: url("/assets/ui/hide-52x13@2x.png");
   background-size: 52px 13px;
 }
-/* line 23, prototype01/_map.sass */
+/* line 92, prototype01/_map.sass */
 #event-list .event {
   display: block;
   outline: none;
@@ -249,12 +359,12 @@
   font-size: 10pt;
   color: #56585a;
 }
-/* line 31, prototype01/_map.sass */
+/* line 100, prototype01/_map.sass */
 #event-list .event .event-id, #event-list .event .title, #event-list .event .location, #event-list .event .time {
   color: #56585a;
   display: block;
 }
-/* line 34, prototype01/_map.sass */
+/* line 103, prototype01/_map.sass */
 #event-list .event .event-id {
   position: absolute;
   top: 8px;
@@ -266,7 +376,7 @@
   color: #37588d;
   text-align: center;
 }
-/* line 44, prototype01/_map.sass */
+/* line 113, prototype01/_map.sass */
 #event-list .event .title {
   font-weight: 600;
   font-size: 12pt;
@@ -274,12 +384,12 @@
   padding: 0;
   line-height: 26px;
 }
-/* line 50, prototype01/_map.sass */
+/* line 119, prototype01/_map.sass */
 #event-list .event .title .locale {
   font-weight: 600;
   font-size: 10pt;
 }
-/* line 53, prototype01/_map.sass */
+/* line 122, prototype01/_map.sass */
 #event-list .event .directions {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -295,29 +405,29 @@
   background: url("/assets/ui/icons/directions-32bl100@2x.png") no-repeat center center;
   background-size: 32px 32px;
 }
-/* line 65, prototype01/_map.sass */
+/* line 134, prototype01/_map.sass */
 #event-list .event:last-child {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-/* line 68, prototype01/_map.sass */
+/* line 137, prototype01/_map.sass */
 #event-list #selected-event {
   display: none;
 }
-/* line 70, prototype01/_map.sass */
+/* line 139, prototype01/_map.sass */
 #event-list #selected-event .back-button {
   padding: 0 10px;
   height: 36px;
   line-height: 36px;
 }
-/* line 74, prototype01/_map.sass */
+/* line 143, prototype01/_map.sass */
 #event-list #selected-event .event {
   border-bottom: 0 !important;
 }
-/* line 77, prototype01/_map.sass */
+/* line 146, prototype01/_map.sass */
 #event-list.show-selected .toggle, #event-list.show-selected .gm-scroll_wrapper {
   display: none;
 }
-/* line 79, prototype01/_map.sass */
+/* line 148, prototype01/_map.sass */
 #event-list.show-selected #selected-event {
   display: block;
 }
