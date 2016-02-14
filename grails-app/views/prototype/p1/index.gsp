@@ -8,11 +8,9 @@
 
 </head>
 <body>
-<div id="screen-container">
-    <g:render template="home" />
-    <g:render template="map" />
-    <g:render template="filters" />
-    <g:render template="search" />
-</div>
+    <g:render template="/prototype/p1/home" />
+    <g:render template="/prototype/p1/map" />
+    <g:render template="/prototype/p1/filters" />
+    <g:render template="/prototype/p1/search" />
 </body>
 </html>

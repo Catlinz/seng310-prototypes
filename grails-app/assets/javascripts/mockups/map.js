@@ -10,39 +10,26 @@ function Map(id, latlng, initialZoom) {
 
     this.markers = [];
     this.onMarkerClicked = null;
-    this.selectedMarkerIndex = -1;
-
-    /* Determine which API we are using, leaflet or google maps. */
-    if (window.google) { this.api = 'google'; }
-    else if(window.L && window.L.map) { this.api = 'leaflet'; }
-    else {
-        alert("Failed to find either Google Maps API or Leaflet API");
-        this.api = 'none';
-    }
-
-    Map[this.api].initialise(this);
+    this.selectedMarker = null;
+    this.h = new GM.Handlers({obj: this});
 }
 
 Map.prototype = {
     constructor: Map,
 
     addEventMarker: function(event) {
-        this.markers.push(Map[this.api].addEventMarker(this, event));
-    },
-
-    addEventMarkers: function(list) {
-        for (var i = 0; i < list.length; ++i) {
-            this.addEventMarker(list.at(i));
-        }
+        var m = Map[this.api].addEventMarker(this, event);
+        m.loopEventID = event.id;
+        this.markers.push(m);
     },
 
     centerOnLocation: function() {
         Map[this.api].centerOnMarker(this, this.locMarker);
     },
 
-    centerOnMarker: function(index) {
-        if (!index) { index = 0; }
-        Map[this.api].centerOnMarker(this, this.markers[index]);
+    centerOnMarker: function(idOrMarker) {
+        if (idOrMarker.loopEventID) { Map[this.api].centerOnMarker(this, idOrMarker); }
+        else { Map[this.api].centerOnMarker(this, this.getEventMarkerByID(id)); }
     },
 
     clearEventMarkers: function() {
@@ -50,28 +37,75 @@ Map.prototype = {
             Map[this.api].removeMarker(this, this.markers[i]);
         }
         this.markers = [];
-        this.selectedMarkerIndex = -1;
+        this.selectedMarker = null;
+    },
+
+    fire: function(action) { this.h.fire(action); },
+
+    getEventMarkerByID: function(id) {
+        for (var i = 0; i < this.markers.length; ++i) {
+            if (this.markers[i].loopEventID == id) {
+                return this.markers[i];
+            }
+        }
+    },
+
+    initialise: function() {
+        /* Determine which API we are using, leaflet or google maps. */
+        if (window.google) { this.api = 'google'; }
+        else if(window.L && window.L.map) { this.api = 'leaflet'; }
+        else {
+            alert("Failed to find either Google Maps API or Leaflet API");
+            this.api = 'none';
+        }
+
+        Map[this.api].initialise(this);
+        this.fire('init');
+    },
+
+    needsInitialisation: function() { return (this.map) ? false : true; },
+
+    off: function(action) { this.h.off(action); },
+    on: function(action, func) { return this.h.on(action, func); },
+
+    populate: function(events) {
+        for (var i = 0; i < events.length; ++i) {
+            this.addEventMarker(events[i]);
+        }
     },
 
     showAllEventMarkers: function() {
-        if (this.selectedMarkerIndex != -1) {
+        if (this.selectedMarker) {
             for (var i = 0; i < this.markers.length; ++i) {
-                if (this.selectedMarkerIndex != i) {
+                if (this.selectedMarker.loopEventID != this.markers[i].loopEventID) {
                     Map[this.api].showMarker(this, this.markers[i]);
                 }
             }
-            this.selectedMarkerIndex = -1;
+            this.selectedMarker = null
         }
     },
 
-    selectEventMarker: function(index) {
+    selectEventMarker: function(idOrMarker) {
+        var m = (idOrMarker.loopEventID) ? idOrMarker : this.getEventMarkerByID(idOrMarker);
         for (var i = 0; i < this.markers.length; ++i) {
-            if (i != index) {
+            if (this.markers[i].loopEventID != m.loopEventID) {
                 Map[this.api].hideMarker(this, this.markers[i]);
             }
         }
-        this.selectedMarkerIndex = index;
-        this.centerOnMarker(index);
+        this.selectedMarker = m;
+        this.centerOnMarker(m);
+    },
+
+    zoomToFitEventsAndLocation: function(maxZoom) {
+        if (!maxZoom) { maxZoom = this.initialZoom; }
+        var m = this.markers.slice(0);
+        m.push(this.locMarker);
+        Map[this.api].zoomToFitMarkers(this, m, maxZoom)
+    },
+
+    zoomToFitAllEvents: function(maxZoom) {
+        if (!maxZoom) { maxZoom = this.initialZoom; }
+        Map[this.api].zoomToFitMarkers(this, this.markers, maxZoom)
     }
 };
 
@@ -80,15 +114,15 @@ Map.defaultLocation = {lat: 48.441216117602345, lng: -123.3530330657959};
 Map.google = {
     addEventMarker: function(self, event) {
         var marker = new google.maps.Marker({
-            position: event.latlng,
+            position: {lat: event.lat, lng: event.lng},
             map: self.map,
-            title: event.title,
+            title: "Event",
             label: {
-                text: event.code,
+                text: ""+event.id,
                 color: 'white',
-                fontFamily: '"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
-                fontSize: '14pt',
-                fontWeight: '600'
+                fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
+                fontSize: '12pt',
+                fontWeight: '500'
             },
             icon: {
                 url: "/assets/marker-icon-2x.png",
@@ -96,7 +130,7 @@ Map.google = {
                 labelOrigin: new google.maps.Point(12,13)
             }
         });
-        marker.addListener('click', function() { if (self.onMarkerClicked) { self.onMarkerClicked(event.code);} });
+        marker.addListener('click', function() { if (self.onMarkerClicked) { self.onMarkerClicked(event.id);} });
         return marker;
     },
 
@@ -141,13 +175,31 @@ Map.google = {
     updateLocationMarker: function(self) {
         if (!self.locMarker) { Map.google.createLocationMarker(self); }
         else { self.locMarker.setPosition(self.location); }
+    },
+
+    zoomToFitMarkers: function(self, markers, maxZoom) {
+        var m0 = markers[0].getPosition();
+        var max = {lat: m0.lat(), lng: m0.lng()};
+        var min = {lat: m0.lat(), lng: m0.lng()};
+
+        for (var i = 1; i < markers.length; ++i) {
+            var m = markers[i].getPosition();
+
+            if (m.lat() > max.lat) { max.lat = m.lat(); }
+            else if (m.lat() < min.lat) { min.lat = m.lat(); }
+
+            if (m.lng() > max.lng) { max.lng = m.lng(); }
+            else if (m.lng() < min.lng) { min.lng = m.lng(); }
+        }
+
+        self.map.fitBounds(new google.maps.LatLngBounds(min, max));
     }
 };
 
 Map.leaflet = {
     addEventMarker: function(self, event) {
-        var marker = L.marker(event.latlng, {icon: Map.leaflet.eventIcon(event.code)}).addTo(self.map);
-        marker.on("click", function() { if (self.onMarkerClicked) { self.onMarkerClicked(event.code);} });
+        var marker = L.marker({lat: event.lat, lng: event.lng}, {icon: Map.leaflet.eventIcon(event.id)}).addTo(self.map);
+        marker.on("click", function() { if (self.onMarkerClicked) { self.onMarkerClicked(event.id);} });
         return marker;
     },
 
@@ -196,5 +248,17 @@ Map.leaflet = {
     updateLocationMarker: function(self) {
         if (!self.locMarker) { Map.leaflet.createLocationMarker(self); }
         else { self.locMarker.setLatLng(self.location); }
+    },
+
+    zoomToFitMarkers: function(self, markers, maxZoom) {
+        var locs = [];
+        for (var i = 0; i < markers.length; ++i) {
+            locs.push(markers[i].getLatLng());
+        }
+        self.map.fitBounds(L.latLngBounds(locs), {
+            paddingTopLeft: [30, 50],
+            paddingBottomRight: [40,30],
+            maxZoom: maxZoom
+        });
     }
 };

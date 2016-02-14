@@ -122,9 +122,9 @@ GM.Scroll.ScrollWrapper.prototype = {
     releaseContent: function(e) {
         this.totalScroll += this.lastPos[1] - this.lastPos[0];
         if (Math.abs(this.totalScroll) < 20 && e.target == GM.Scroll.lastTouchDown) {
-            if (e.target.nodeName == 'A') { $(e.target).click(); }
+            if (e.target.nodeName == 'A' || $(e.target).hasClass("clicky")) { $(e.target).click(); }
             else {
-                ($(e.target).parents("a")).click();
+                ($(e.target).parents("a, .clicky")).click();
             }
         }
         $(document).off(".gmScrollContent");

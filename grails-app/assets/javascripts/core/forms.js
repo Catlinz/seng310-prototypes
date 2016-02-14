@@ -30,6 +30,12 @@ GM.Forms.formatGMInput = function(input) {
     }
 };
 
+GM.Forms.checkLabel = function(input) {
+    var label = $(input).siblings("label");
+    if ($(input).val().trim() != "") { label.hide(); }
+    else { label.show(); }
+};
+
 $(document).ready(function() {
     GM.Forms.formatAllGMInputs();
 });

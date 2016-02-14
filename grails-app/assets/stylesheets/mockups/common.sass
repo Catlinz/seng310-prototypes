@@ -25,16 +25,16 @@ html, body
     display: none
 
 .map-icon
-  font-size: 16pt
-  font-weight: 600
+  font-size: 12pt
+  font-weight: 500
   text-align: center
-  line-height: 1.2
+  line-height: 26px
   background: url('/assets/marker-icon-2x.png') no-repeat center center
   background-size: 25px 41px
   overflow: visible
   position: relative
   color: white
-  font-family: $GM_DEFAULT_FONTS !important
+  font-family: $GM_ROBOTO_FONTS !important
 
 #screen-container
   width: 320px
@@ -43,13 +43,23 @@ html, body
   overflow: hidden
   -webkit-tap-highlight-color: rgba(0,0,0,0)
 
+  .ios-standalone-bar
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: $IOS_STATUS_HEIGHT
+    display: none
+    z-index: 900
+    background: rgba(0,0,0,0.5)
+
 .screen
   display: none
   position: absolute
   top: 0
   left: 0
+  bottom: 0
   width: 100%
-  height: 100%
   -webkit-tap-highlight-color: rgba(0,0,0,0)
   overflow: hidden
   z-index: 1
@@ -71,7 +81,14 @@ html, body
   &.under
     z-index: 200
 
-
+#screen-container.ios-standalone
+  .ios-standalone-bar
+    display: block
 
 @media (max-width: 400px), (max-height: 400px)
   @import iphone
+
+@media (max-height: 400px)
+  #screen-container.ios-standalone
+    .ios-standalone-bar
+      display: none

@@ -4,7 +4,7 @@
         <a class="icon menu-icon"></a>
         <form>
             <div class="gm-input">
-                <input type="text" name="map-search-input" required="required" value=""/>
+                <input type="text" class="loop-search-input" value=""/>
                 <label>Search for an event</label>
             </div>
         </form>
@@ -18,11 +18,9 @@
         <div class="result-nav hidden"><a class="back left ctrl-link">Back</a></div>
         <div id="selected-event">
             <div class="event">
-                <div class="event-id"></div>
                 <h3 class="title"></h3>
-                <div class="location"></div>
-                <div class="time"></div>
-                <a class="directions">Directions</a>
+                <a class="venue"></a>
+                <span class="time"></span>
             </div>
         </div>
     </div>

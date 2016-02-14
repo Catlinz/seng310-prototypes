@@ -4,7 +4,7 @@
         <form>
             <div class="search-line">
                 <div class="gm-input">
-                    <input type="text" name="search" required="required" value=""/>
+                    <input type="text" class="loop-search-input" value=""/>
                     <label>Search for an event</label>
                 </div>
                 <a class="search-btn ctrl-link" data-link="search">Search</a>

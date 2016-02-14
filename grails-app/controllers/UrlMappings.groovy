@@ -7,7 +7,9 @@ class UrlMappings {
             }
         }
 
-        "/"(controller: 'prototypes', view:'index')
+        "/prototype/$id?"(controller: 'prototype', action: 'view')
+
+        "/"(controller: 'prototype', view:'index')
         "500"(view:'/error')
         "404"(view:'/notFound')
     }

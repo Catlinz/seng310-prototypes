@@ -1,18 +1,21 @@
 //=require_self
 
 var P02 = {};
+
+P02.Home = {
+    init: function() {
+        $(".screen.home form").on('submit', function() {
+            Screen.goto('search');
+            return false;
+        });
+    }
+};
+
 P02.Map = {
     onHideResultGoBack: false,
 
-  showResult: function(code, noAnim) {
+    doShowResult: function(id, noAnim) {
         var se_div = $("#selected-event");
-        var se = se_div.find('.event');
-        var e = Core.events.at(code);
-        se.find('.event-id').text(code);
-        se.find('.title').html(e.title+' <span class="locale">'+e.locale+'</span>');
-        se.find('.location').text(e.address);
-        se.find('.time').text(e.hours[0] + ' - ' + e.hours[1]);
-
         var bn = $(".screen.map .bottom-nav-bar");
         var nav_hide = bn.find(".default-nav");
         var nav_show = bn.find(".result-nav");
@@ -23,24 +26,31 @@ P02.Map = {
         nav_hide.stop(true);
         nav_show.stop(true);
         if (noAnim) {
-          nav_hide.css("opacity", 0).removeClass('hidden').addClass('hidden');
-          nav_show.css("opacity", 1.0).removeClass('hidden');
-          bn.css('height', h);
+            nav_hide.css("opacity", 0).removeClass('hidden').addClass('hidden');
+            nav_show.css("opacity", 1.0).removeClass('hidden');
+            bn.css('height', h);
         } else {
-          bn.animate({height: h}, 300);
-          nav_hide.animate({opacity: 0}, 200, function() {
-              nav_hide.removeClass('hidden').addClass('hidden');
-              nav_show.removeClass('hidden').animate({opacity: 1}, 200);
-          });
+            bn.animate({height: h}, 300);
+            nav_hide.animate({opacity: 0}, 200, function() {
+                nav_hide.removeClass('hidden').addClass('hidden');
+                nav_show.removeClass('hidden').animate({opacity: 1}, 200);
+            });
         }
 
-        Core.map.selectEventMarker(Core.events.indexOf(code));
+        Core.map.selectEventMarker(id);
+    },
+
+  showResult: function(id, noAnim) {
+      Events.get({id: id, html: true}, function(data) {
+          $("#selected-event").html(data.html);
+          P02.Map.doShowResult(id, noAnim)
+      });
     },
 
     hideResult: function(noAnim) {
         if (P02.Map.onHideResultGoBack) {
             P02.Map.onHideResultGoBack = false;
-            Screen.back(null, function() { P02.Map.hideResult(true); });
+            Screen.goto('search', function() { P02.Map.hideResult(true); });
         }
         else {
             var bn = $(".screen.map .bottom-nav-bar");
@@ -65,24 +75,53 @@ P02.Map = {
             }
 
             Core.map.showAllEventMarkers();
-            Core.map.centerOnLocation();
+            //Core.map.centerOnLocation();
+        }
+    },
+
+    fetchResults: function() {
+        if (!Search.checkState("map")) {
+            Search.storeState("map");
+            Core.map.clearEventMarkers();
+            Search.doSearch(function(data) {
+                Core.map.populate(data.events);
+                Core.map.zoomToFitEventsAndLocation();
+            });
         }
     },
 
     init: function() {
         $(".screen.map .bottom-nav-bar a.back").on("click", function () { P02.Map.hideResult(); });
+
+        $(".screen.map form").on('submit', function() {
+            P02.Map.onHideResultGoBack = false;
+            P02.Map.hideResult();
+            P02.Map.fetchResults();
+            return false;
+        });
     }
 };
 
-Core.screens.map = {
+Core.screens.home = {
     onShow: function() {
-        if (!Core.map) {
-            Core.map = new Map('map');
-            Core.map.addEventMarkers(Core.events);
+        Search.reset();
+    }
+};
+
+
+Core.screens.map = {
+    onDisappear: function() {
+        P02.Map.onHideResultGoBack = false;
+    },
+
+    onShow: function() {
+        if (Core.map.needsInitialisation()) {
+            Core.map.initialise();
         }
         if (!Core.map.onMarkerClicked) {
-            Core.map.onMarkerClicked = function(code) { P02.Map.showResult(code); };
+            Core.map.onMarkerClicked = function(id) { P02.Map.showResult(id); };
         }
+        P02.Map.fetchResults();
     }
 };
 
@@ -94,58 +133,70 @@ Core.screens.filters = {
 
 Core.screens.search = {
     onShow: function() {
-        P02.Search.clearEventList();
-        P02.Search.addEventsToList(Core.events);
-        $(".screen.search .gm-scrollable").data('scroll').updateViewAndContentSize();
-    }
-};
-
-var Search = {
-    init: function() {
-        var s = $(".search-bar");
+        P02.Search.fetchResults();
     }
 };
 
 P02.Search = {
-    addEventToList: function(event) {
-        var html = $('<div class="event"><a class="event-id">'+event.code+'</a><a class="title">'+event.title+' <span class="locale">'+event.locale+'</span></a><a class="location">'+event.address+'</a><a class="time">'+event.hours[0]+' - '+event.hours[1]+'</a><a class="directions">Directions</a></div>');
-        var content = $("#events-content");
-        content.append(html);
-        content.data('scroll').updateViewAndContentSize();
-    },
 
-    addEventsToList: function(list) {
-        for (var i = 0; i < list.length; ++i) {
-            P02.Search.addEventToList(list.at(i));
-        }
-    },
-
-    clearEventList: function() {
+    clearResults: function() {
         var content = $("#events-content");
         content.html("");
         content.data('scroll').updateViewAndContentSize();
     },
 
+    fetchResults: function() {
+        if (!Search.checkState("search")) {
+            Search.storeState("search");
+            P02.Search.clearResults();
+            Search.doSearch({html: true}, function(data) {
+                var content = $("#events-content");
+                content.html(data.html);
+                content.data('scroll').updateViewAndContentSize();
+                content.data('scroll').setScroll(0)
+            });
+        }
+    },
+
     init: function() {
-        $("#events-content").on("click", "a", function(e) {
-            var t = $(e.target);
-            var code = (t.hasClass("event-id")) ? t.text() : $(e.target).parents('.event').find('.event-id').text();
+        $("#events-content").on("click", ".event", function(e) {
+            var id = $(e.currentTarget).attr("data-id");
             P02.Map.onHideResultGoBack = true;
-            Screen.goto('map', function() { P02.Map.showResult(code, true); });
+            Screen.goto('map', function() { P02.Map.showResult(id, true); });
         });
+
+        $(".screen.search form").on('submit', function() {
+            P02.Search.fetchResults();
+            return false;
+        });
+    }
+
+};
+
+P02.Menu = {
+    hide: function() {
+        $("#screen-container").removeClass('show-nav-bar');
+    },
+
+    initialise: function() {
+        $('.top-bar a.menu-icon').on('click', function() {P02.Menu.toggle(); });
+        $('#nav-bar').find('a').on('click', function() { P02.Menu.hide(); });
+    },
+
+    show: function() {
+        $('#screen-container').removeClass('show-nav-bar').addClass('show-nav-bar');
+    },
+
+    toggle: function() {
+        if ($("#screen-container").hasClass('show-nav-bar')) { P02.Menu.hide(); }
+        else { P02.Menu.show(); }
     }
 };
 
 $(document).ready(function() {
-    Core.events.on("add", function() {
-        Core.map.clearEventMarkers();
-        Core.map.addEventMarkers(Core.events);
-
-        P02.Search.clearEventList();
-        P02.Search.addEventsToList(Core.events);
-    });
-
-    Search.init();
+    Core.id = 2;
+    P02.Home.init();
     P02.Map.init();
     P02.Search.init();
+    P02.Menu.initialise();
 });

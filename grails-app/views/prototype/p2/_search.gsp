@@ -3,7 +3,7 @@
         <a class="icon menu-icon"></a>
         <form>
             <div class="gm-input">
-                <input type="text" name="list-search-input" required="required" value=""/>
+                <input type="text" class="loop-search-input" value=""/>
                 <label>Search for an event</label>
             </div>
         </form>
