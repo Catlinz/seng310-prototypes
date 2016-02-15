@@ -28,24 +28,34 @@
         margin-top: 5px
         height: 24px
         position: relative
-        .bar
+        .bar, .bar .active
           position: absolute
+          +border-radius(5px)
+        .bar
           left: 12px
           right: 12px
           top: 9px
           bottom: 9px
-          background: #009bff
-          +border-radius(5px)
+          background: #c0c0c0
+          .active
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            background: #009bff
         .start, .end
           position: absolute
           top: 0
           display: block
           width: 22px
           height: 22px
-          background: #eeeeee
-          border: 1px solid #c0c0c0
+          background: #eaecee
+          border: 1px solid rgba(0,0,0,0.15)
           +border-radius(12px)
           +box-shadow(0 2px 3px 0 rgba(0,0,0,0.1))
+          +transition(background 0.2s)
+          &:hover
+            background: #F9D182
         .start
           left: 0
         .end

@@ -1,5 +1,6 @@
 package com.seng310.loop
 
+import com.loop.event.CoverCharge
 import com.loop.utils.LatLng
 import com.loop.utils.Str
 import grails.converters.JSON
@@ -12,17 +13,18 @@ class MusicEvent {
     Date start
     Date end
 
-    EntryMethod entry = EntryMethod.NO_COVER
-    String cost
+    boolean isFreeEvent = false
+    String coverNote;
 
     static belongsTo = [venue: Venue]
+    static hasMany = [coverCharges: CoverCharge]
 
 
     static constraints = {
         name blank: false, nullable: false
         start nullable: true
         end nullable: true
-        cost nullable: true
+        coverNote nullable: true, blank: true
     }
 
     transient public LatLng location() { return new LatLng(venue.lat, venue.lng) }
@@ -36,8 +38,8 @@ class MusicEvent {
                     day: Str.shortDay(e.start),
                     start: Str.shortTime(e.start),
                     end: Str.shortTime(e.end),
-                    entry: e.entry.toString(),
-                    cost: e.cost,
+                    free: e.isFreeEvent,
+                    coverNote: e.coverNote,
                     venue: e.venueId
             ]
         }

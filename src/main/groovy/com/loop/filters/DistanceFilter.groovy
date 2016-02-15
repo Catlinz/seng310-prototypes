@@ -10,7 +10,9 @@ class DistanceFilter {
     private double _maxRadius;
 
     private LatLng _center;
-    private LatLngBounds _bounds;
+    private LatLngBounds _bounds = null;
+
+    private Map<Long, Double> distances;
 
     public DistanceFilter(def params = null) {
         if (!params) { params = [:] }
@@ -20,15 +22,59 @@ class DistanceFilter {
         _center = new LatLng(params.center ?: [lat: 0, lng: 0]);
         if (params.radius ||  params.maxRadius || params.max) { doSetMaxRadius(params.radius ?: (params.maxRadius ?: params.min)); }
         if (params.minRadius || params.min) { doSetMinRadius(params.minRadius ?: params.min) }
-        calculateBounds()
+
+        if (_minRadius < _maxRadius) { calculateBounds() }
+
     }
 
-    public List<MusicEvent> filterResults(List<MusicEvent> results) {
-        return results.findAll {
-            double d = Location.distance(_center, it.location());
-            return (d >= _minRadius && d <= _maxRadius);
+    public List<MusicEvent> processAndFilterResults(List<MusicEvent> results) {
+        distances = [:]
+        if (isValid) {
+            return results.findAll {
+                double d = Location.distance(_center, it.location());
+                if (d >= _minRadius && d <= _maxRadius) {
+                    distances[(it.id)] = d;
+                    return true
+                }
+                else { return false }
+            }
+        } else {
+            results.each { distances[(it.id)] = Location.distance(_center, it.location()) }
+            return results
         }
     }
+
+    public void postProcess(List<MusicEvent> results) {
+        def map = [:]
+        results.each { map[(it.id)] = distances[(it.id)] }
+        distances = map
+    }
+
+    public def getStats() {
+        double max = _minRadius
+        double min = _maxRadius
+        distances.each { k, v ->
+            if (v > max) { max = v }
+            else if (v < min) { min = v }
+        }
+
+        max = Math.ceil(max + 1)
+        min = Math.floor(min)
+
+        def buckets = []
+        int numBuckets = 8
+        double bw = (max - min) / numBuckets;
+
+        for (int i = 0; i < numBuckets; ++i) {
+            double s = i*bw + min
+            double e = ((i + 1)*bw) + min
+            buckets.add([start: s, end: e, count: distances.count { k, v -> (v >= s && v < e) }])
+        }
+
+        return [min: min, max: max, buckets: buckets]
+    }
+
+    public boolean getIsValid() { return _bounds != null }
 
     public LatLng getCenter() { return _center }
     public double getMaxRadius() { return _maxRadius; }

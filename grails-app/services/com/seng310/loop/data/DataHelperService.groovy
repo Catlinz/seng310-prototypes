@@ -354,64 +354,63 @@ class DataHelperService {
 
 
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e0 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Booker T. Jones - Black History Month Celebration",
                 venue: alix, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "12/02/2016 19:30"),
-                entry: EntryMethod.TICKET, cost: "\$45"
+                start: Date.parse("d/M/yyyy H:m", "12/02/2016 19:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e0, ticket: [[cost: 45]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Spanish Guitarist Live Every Friday Night! Monte Saatchi",
                 venue: camilles, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "12/02/2016 18:30"),
                 end: Date.parse("d/M/yyyy H:m", "12/02/2016 21:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e2 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Wicked Wench Aquarius Affair DJ Yeezy Yee",
                 venue: copper, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "12/02/2016 20:00"),
-                end: Date.parse("d/M/yyyy H:m", "13/02/2016 02:00"),
-                entry: EntryMethod.DOOR, cost: "\$10"
+                end: Date.parse("d/M/yyyy H:m", "13/02/2016 02:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e2, door: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e3 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Valentine's Double Bill Craig Henderson, Susannah Adams",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "12/02/2016 19:30"),
-                entry: EntryMethod.DOOR, cost: "\$15"
+                start: Date.parse("d/M/yyyy H:m", "12/02/2016 19:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e3, door: [[cost: 15]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e4 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Generators, THE MANDLEBAUMS, The Poor Choices",
                 venue: logans, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "12/02/2016 22:00"),
-                end: Date.parse("d/M/yyyy H:m", "13/02/2016 00:45"),
-                entry: EntryMethod.DOOR, cost: "\$12"
+                end: Date.parse("d/M/yyyy H:m", "13/02/2016 00:45")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e4, door: [[cost: 12]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Dave Harris",
                 venue: mybar, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "12/02/2016 21:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e6 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Lonely - A Tribute to Roxy Orbison Mike Demers",
                 venue: roxy, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "12/02/2016 19:00"),
-                end: Date.parse("d/M/yyyy H:m", "12/02/2016 21:00"),
-                entry: EntryMethod.TICKET, cost: "\$30.25/\$35.50"
+                end: Date.parse("d/M/yyyy H:m", "12/02/2016 21:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e6, ticket: [[cost: 30.25], [cost: 35.50]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Consenting Adults",
                 venue: tallyho, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "12/02/2016 21:00"),
-                entry: EntryMethod.NO_COVER
+                start: Date.parse("d/M/yyyy H:m", "12/02/2016 21:00")
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -419,22 +418,21 @@ class DataHelperService {
                 venue: waddling, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "12/02/2016 19:00"),
                 end: Date.parse("d/M/yyyy H:m", "12/02/2016 22:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e9 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Friday Night Dance Petunia and the Vipers, Petunia petunia, Marc Atkinson Trio",
                 venue: whiteeagle, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "12/02/2016 20:00"),
-                end: Date.parse("d/M/yyyy H:m", "13/02/2016 00:00"),
-                entry: EntryMethod.TICKET, cost: "\$20 early Bird, \$25 advance"
+                end: Date.parse("d/M/yyyy H:m", "13/02/2016 00:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e9, ticket: [[cost: 30.25, note: "early Bird"], [cost: 35.50, note: "advance"]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Edie DaPonte, Joey Smith",
                 venue: beacon, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "13/02/2016 18:00"),
-                entry: EntryMethod.NO_COVER
+                start: Date.parse("d/M/yyyy H:m", "13/02/2016 18:00")
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -442,152 +440,151 @@ class DataHelperService {
                 venue: bengal, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 19:30"),
                 end: Date.parse("d/M/yyyy H:m", "13/02/2016 22:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e13 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Night Shift: Wild Romance",
                 venue: rbcm, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 20:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 00:00"),
-                entry: EntryMethod.TICKET, cost: "\$35"
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 00:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e13, ticket: [[cost: 35]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e14 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Celtic Reflections, also open stage, Ray Spencer, Randall Cook, Anne Waters",
                 venue: caleb, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 19:30"),
-                end: Date.parse("d/M/yyyy H:m", "13/02/2016 21:30"),
-                entry: EntryMethod.DOOR, cost: "\$5.00"
+                end: Date.parse("d/M/yyyy H:m", "13/02/2016 21:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e14, door: [[cost: 5]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Mr. Big Steve (Johnny Cash Tribute)",
                 venue: christies, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 19:30"),
                 end: Date.parse("d/M/yyyy H:m", "13/02/2016 22:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e16 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Strictly Roots & Clean Heart Youth present The Heart Breakers Ball, Heart & Soul Edition Dj Lexus , Dj Shell, Dj KNatural",
                 venue: copper, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 21:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 02:00"),
-                entry: EntryMethod.DOOR_OR_TICKET, cost: "\$10 ADV \$12 DOOR"
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 02:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e16, ticket: [[cost: 10, note: "ADV"]], door: [[cost: 12, note: "DOOR"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e17 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Maureen Washington, Karel Roessingh, Damian Graham, Sean Drabitt",
                 venue: evedars, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "13/02/2016 17:00"),
-                entry: EntryMethod.MONEY, cost: "\$45 per person, plus tax and 18% automatic gratuity"
+                start: Date.parse("d/M/yyyy H:m", "13/02/2016 17:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e17, general: [[cost: 45, note: "per person, plus tax and 18% automatic gratuity"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e18 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Valentine with the Blues Auntie Kate & the Uncles of Funk",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 20:00"),
-                end: Date.parse("d/M/yyyy H:m", "13/02/2016 23:00"),
-                entry: EntryMethod.MONEY, cost: "\$15"
+                end: Date.parse("d/M/yyyy H:m", "13/02/2016 23:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e18, door: [[cost: 5]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e19 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Great American Songbook Trio - Valentines Special Louise Rose, Joey Smith, Kelby MacNayr",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "13/02/2016 14:00"),
-                entry: EntryMethod.DOOR, cost: "\$20/18 UJam/ VJS/ \$10 student"
+                start: Date.parse("d/M/yyyy H:m", "13/02/2016 14:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e19, door: [[cost: 20], [cost: 18, note: "UJam/VJS"], [cost: 10, note: "student"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e20 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "David Bowie Live Tribute! DEAD OR ALIVE",
                 venue: logans, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 21:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 1:00"),
-                entry: EntryMethod.DOOR, cost: "\$10"
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 1:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e20, door: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e21 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Valentine's Dance",
                 venue: pacific, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 21:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 00:45"),
-                entry: EntryMethod.DOOR, cost: "\$5"
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 00:45")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e21, door: [[cost: 5]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e22 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Saturday Concert and Dance",
                 venue: standrews, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 20:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 01:00"),
-                entry: EntryMethod.TICKET, cost: "\$35 Early Bird, \$40 Advance"
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 01:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e22, ticket: [[cost: 35, note: "Early Bird"], [cost: 40, note: "Advance"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e23 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Sweet Heart Swirl",
                 venue: tallyho, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "13/02/2016 20:00"),
-                entry: EntryMethod.TICKET, cost: "\$15 Advance"
+                start: Date.parse("d/M/yyyy H:m", "13/02/2016 20:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e23, ticket: [[cost: 15, note: "Advance"]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Mark Comerford",
                 venue: tallyho, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "13/02/2016 20:00"),
-                entry: EntryMethod.NO_COVER
+                start: Date.parse("d/M/yyyy H:m", "13/02/2016 20:00")
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e25 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Paperboys",
                 venue: farquhar, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "13/02/2016 19:30"),
-                entry: EntryMethod.DOOR_OR_TICKET, cost: "\$26 Advance; \$28 at the door"
+                start: Date.parse("d/M/yyyy H:m", "13/02/2016 19:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e25, ticket: [[cost: 26, note: "Advance"]], door: [[cost: 28, note: "at the door"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e26 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Mardi Gras",
                 venue: market, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "13/02/2016 19:00"),
-                end: Date.parse("d/M/yyyy H:m", "13/02/2016 23:00"),
-                entry: EntryMethod.TICKET, cost: "\$45.00 - \$80.00"
+                end: Date.parse("d/M/yyyy H:m", "13/02/2016 23:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e26, ticket: [[min: 45, max: 80]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e27 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Jazz Vespers (Spirited Jazz)",
                 venue: unitarian, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "14/02/2016 19:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 20:15"),
-                entry: EntryMethod.DONATION
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 20:15")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e27, byDonation: [[:]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e28 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Valentines Dinner",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "14/02/2016 18:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 21:30"),
-                entry: EntryMethod.TICKET, cost: "\$75 Early Bird, \$80 Advance"
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 21:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e28, ticket: [[cost: 75, note: "Early Bird"], [cost: 80, note: "Advance"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e29 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Mulan-Percussion Musical",
                 venue: farquhar, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "14/02/2016 20:00"),
-                end: Date.parse("d/M/yyyy H:m", "14/02/2016 21:30"),
-                entry: EntryMethod.TICKET, cost: "\$40 - \$60"
+                end: Date.parse("d/M/yyyy H:m", "14/02/2016 21:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e29, ticket: [[min: 40, max: 60]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e30 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Share the Love!",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "15/02/2016 19:00"),
-                entry: EntryMethod.DOOR, cost: "\$12 - \$20"
+                start: Date.parse("d/M/yyyy H:m", "15/02/2016 19:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e30, door: [[min: 12, max: 20]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Guest Concert",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "15/02/2016 20:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -595,101 +592,103 @@ class DataHelperService {
                 venue: copper, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "16/02/2016 20:00"),
                 end: Date.parse("d/M/yyyy H:m", "16/02/2016 23:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Extra Solar Planets",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "16/02/2016 18:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e34 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Tuesdaymusic",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "16/02/2016 12:30"),
-                entry: EntryMethod.DONATION
+                start: Date.parse("d/M/yyyy H:m", "16/02/2016 12:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e34, byDonation: [[:]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Rabbit Hole with",
                 venue: copper, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "17/02/2016 18:00"),
                 end: Date.parse("d/M/yyyy H:m", "17/02/2016 21:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Records and Cocktails",
                 venue: copper, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "17/02/2016 21:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e37 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Carol Sings Harold & Carol",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "17/02/2016 19:30"),
-                entry: EntryMethod.DOOR, cost: ""
+                start: Date.parse("d/M/yyyy H:m", "17/02/2016 19:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e37, door: [[cost: null]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e38 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Matt Andersen",
                 venue: farquhar, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "17/02/2016 19:30"),
-                entry: EntryMethod.TICKET, cost: "\$39.00/\$31.00/\$23.00 (plus service charges)"
+                coverNote: "(plus service charges)"
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e38, ticket: [[cost: 39], [cost: 31], [cost: 23]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Maureen Washington, Karel Roessingh",
                 venue: bengal, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "18/02/2016 19:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e40 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "GNUMADAYO Deep Tropical House DANCE PARTY!",
                 venue: copper, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "18/02/2016 21:00"),
                 entry: EntryMethod.DOOR, cost: "\$5"
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e40, door: [[cost: 5]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e41 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Jazz Jam",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "18/02/2016 20:00"),
-                entry: EntryMethod.DOOR, cost: "\$8/\$5 students / free after 10pm"
+                coverNote: "free after 10pm"
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e41, door: [[cost: 8], [cost: 5, note: "students"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e42 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Wise Child, The Orphans, Iron Skies",
                 venue: logans, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "18/02/2016 21:00"),
-                end: Date.parse("d/M/yyyy H:m", "19/02/2016 00:00"),
-                entry: EntryMethod.DOOR, cost: "\$8"
+                end: Date.parse("d/M/yyyy H:m", "19/02/2016 00:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e42, door: [[cost: 8]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e43 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Greazu\$, X/L B2B Guests, KIRTAY",
                 venue: lucky, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "18/02/2016 22:00"),
-                end: Date.parse("d/M/yyyy H:m", "19/02/2016 02:00"),
-                entry: EntryMethod.TICKET, cost: "\$8"
+                end: Date.parse("d/M/yyyy H:m", "19/02/2016 02:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e43, ticket: [[cost: 8]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e44 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Coeur de pirate (**SOLD OUT**), Fox Glove",
                 venue: alix, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "19/02/2016 19:00"),
-                entry: EntryMethod.TICKET, cost: "\$29.50"
+                start: Date.parse("d/M/yyyy H:m", "19/02/2016 19:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e44, ticket: [[cost: 29.50]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Kooler",
                 venue: bartholomews, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "19/02/2016 21:00"),
-                entry: EntryMethod.NO_COVER
+                start: Date.parse("d/M/yyyy H:m", "19/02/2016 21:00")
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -697,84 +696,83 @@ class DataHelperService {
                 venue: camilles, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "19/02/2016 18:30"),
                 end: Date.parse("d/M/yyyy H:m", "19/02/2016 21:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e47 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Cosmic Leap Year Get Down",
                 venue: copper, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "19/02/2016 21:00"),
-                entry: EntryMethod.DOOR, cost: "\$10"
+                start: Date.parse("d/M/yyyy H:m", "19/02/2016 21:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e47, door: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e48 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Forty Roses, Tina Jones",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "19/02/2016 20:00"),
-                entry: EntryMethod.DOOR, cost: "\$20"
+                start: Date.parse("d/M/yyyy H:m", "19/02/2016 20:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e48, door: [[cost: 20]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Maureen Washington, Karel Roessingh",
                 venue: grand, age: AgeRestriction.NO_RESTRICTION,
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e50 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Scimitar, Iron Kingdom, Tribune, Maiden BC",
-                venue: logans, age: AgeRestriction.NO_RESTRICTION,
-                entry: EntryMethod.MONEY, cost: "Advanced 2 Day Pass \$20 / Advanced 1 Day Pass \$12.50 / 1 Day Door Price \$15.00"
+                venue: logans, age: AgeRestriction.NO_RESTRICTION
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e50, general: [[cost: 20, note: "Advanced 2 Day Pass"], [cost: 12.50, note: "Advanced 1 Day Pass"]], door: [[cost: 15, note: "1 Day Door Price"]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Roots Rock Rodeo - Country Night!",
                 venue: mybar, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "19/02/2016 21:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e52 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Fridaymusic",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "19/02/2016 12:30"),
                 entry: EntryMethod.DONATION
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e52, byDonation: [[:]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e53 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Faculty Concert",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "19/02/2016 20:00"),
-                entry: EntryMethod.MONEY, cost: "Adults \$18 / Seniors, students & alumni \$14"
+                start: Date.parse("d/M/yyyy H:m", "19/02/2016 20:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e53, general: [[cost: 18, note: "Adults"], [cost: 14, note: "Seniors, students & alumni"]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Xlr8",
                 venue: tallyho, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "19/02/2016 21:00"),
-                entry: EntryMethod.NO_COVER
+                start: Date.parse("d/M/yyyy H:m", "19/02/2016 21:00")
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e55 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Lynn Miles, Keith Glass",
                 venue: oakbay, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "19/02/2016 19:30"),
-                end: Date.parse("d/M/yyyy H:m", "19/02/2016 22:00"),
-                entry: EntryMethod.DOOR_OR_TICKET, cost: "\$15 advance / \$20 at the door"
+                end: Date.parse("d/M/yyyy H:m", "19/02/2016 22:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e55, ticket: [[cost: 15, note: "advance"]], door: [[cost: 20, note: "at the door"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e56 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Local Love: Oaklands Sunset Market Fundraiser!",
                 venue: atrium, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "20/02/2016 19:00"),
-                end: Date.parse("d/M/yyyy H:m", "20/02/2016 23:30"),
-                entry: EntryMethod.TICKET, cost: "\$20"
+                end: Date.parse("d/M/yyyy H:m", "20/02/2016 23:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e56, ticket: [[cost: 20]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Kooler",
                 venue: bartholomews, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "20/02/2016 21:00"),
-                entry: EntryMethod.NO_COVER
+                start: Date.parse("d/M/yyyy H:m", "20/02/2016 21:00")
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -782,7 +780,7 @@ class DataHelperService {
                 venue: bengal, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "20/02/2016 19:30"),
                 end: Date.parse("d/M/yyyy H:m", "20/02/2016 22:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -790,7 +788,7 @@ class DataHelperService {
                 venue: dickens, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "20/02/2016 22:00"),
                 end: Date.parse("d/M/yyyy H:m", "21/02/2016 02:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -798,181 +796,181 @@ class DataHelperService {
                 venue: christies, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "20/02/2016 19:30"),
                 end: Date.parse("d/M/yyyy H:m", "21/02/2016 22:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e61 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Jack Garton, The Burnettes, Carolyn Mark and her new Best Friends",
                 venue: copper, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "20/02/2016 21:00"),
-                entry: EntryMethod.DOOR, cost: "\$10"
+                start: Date.parse("d/M/yyyy H:m", "20/02/2016 21:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e61, door: [[cost: 10]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Jazz by the Seaside",
                 venue: gabys, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "20/02/2016 19:00"),
                 end: Date.parse("d/M/yyyy H:m", "20/02/2016 21:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e63 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Music of Art Blakey's Jazz Messengers feat. special guest Ian McDougall",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "20/02/2016 20:00"),
-                entry: EntryMethod.DOOR, cost: "\$20/ 18 VJS / 15 Stud"
+                start: Date.parse("d/M/yyyy H:m", "20/02/2016 20:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e63, door: [[cost: 20], [cost: 18, note: "VJS"], [cost: 15, note: "Stud"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e64 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Bourbon Street to Broadway",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "20/02/2016 14:00"),
-                entry: EntryMethod.DOOR, cost: "\$10-\$20"
+                start: Date.parse("d/M/yyyy H:m", "20/02/2016 14:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e64, door: [[min: 10, max: 20]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Maureen Washington, Karel Roessingh",
                 venue: grand, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "20/02/2016 20:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e66 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Sheepdogs (**SOLD OUT**), Guests",
                 venue: sugar, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "20/02/2016 19:00"),
-                entry: EntryMethod.TICKET, cost: "\$30.00"
+                start: Date.parse("d/M/yyyy H:m", "20/02/2016 19:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e66, ticket: [[cost: 30]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e67 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Fernwood Soccer Association Fundraiser",
                 venue: tallyho, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "20/02/2016 21:00"),
-                entry: EntryMethod.TICKET, cost: "\$10.00"
+                start: Date.parse("d/M/yyyy H:m", "20/02/2016 21:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e67, ticket: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e68 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Sunday Series - feat. Richard Bird and MORE!",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "21/02/2016 19:00"),
-                entry: EntryMethod.DOOR, cost: "\$18/15/12"
+                start: Date.parse("d/M/yyyy H:m", "21/02/2016 19:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e68, door: [[cost: 18], [cost: 15], [cost: 12]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e69 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Dixieland & Swing with CanUS Jazz Band",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "21/02/2016 15:00"),
-                end: Date.parse("d/M/yyyy H:m", "21/02/2016 18:00"),
-                entry: EntryMethod.DOOR, cost: "\$12"
+                end: Date.parse("d/M/yyyy H:m", "21/02/2016 18:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e69, door: [[cost: 12]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e70 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Flying Saucers",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "22/02/2016 19:30"),
-                entry: EntryMethod.DOOR, cost: "\$10"
+                start: Date.parse("d/M/yyyy H:m", "22/02/2016 19:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e70, door: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e71 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Riverside Bluegrass Band",
                 venue: scientist, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "23/02/2016 19:45"),
-                end: Date.parse("d/M/yyyy H:m", "23/02/2016 22:00"),
-                entry: EntryMethod.DOOR, cost: "\$7"
+                end: Date.parse("d/M/yyyy H:m", "23/02/2016 22:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e71, door: [[cost: 7]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e72 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Monik Nordine",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "23/02/2016 19:30"),
-                entry: EntryMethod.DOOR, cost: "\$12/\$8 students"
+                start: Date.parse("d/M/yyyy H:m", "23/02/2016 19:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e72, door: [[cost: 12], [cost: 8, note: "students"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e73 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Tuesdaymusic",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "23/02/2016 12:30"),
-                entry: EntryMethod.DONATION
+                start: Date.parse("d/M/yyyy H:m", "23/02/2016 12:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e73, byDonation: [[:]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e74 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Monster Truck, The Temperance Movement",
                 venue: sugar, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "23/02/2016 20:00"),
-                entry: EntryMethod.TICKET, cost: "\$32.50"
+                start: Date.parse("d/M/yyyy H:m", "23/02/2016 20:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e74, ticket: [[cost: 32.50]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e75 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "A Twin Peaks Evening",
                 venue: copper, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "24/02/2016 21:00"),
-                entry: EntryMethod.TICKET, cost: "\$10"
+                start: Date.parse("d/M/yyyy H:m", "24/02/2016 21:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e75, ticket: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e76 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Raine and Shauna",
                 venue: gorgeous, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "24/02/2016 19:30"),
-                end: Date.parse("d/M/yyyy H:m", "24/02/2016 21:30"),
-                entry: EntryMethod.DOOR, cost: "Suggested donation \$15"
+                end: Date.parse("d/M/yyyy H:m", "24/02/2016 21:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e76, byDonation: [[suggested: 15]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e77 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Tease Cabaret Miss Rosie Bitts",
                 venue: hermanns, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "24/02/2016 19:30"),
-                entry: EntryMethod.TICKET, cost: ""
+                start: Date.parse("d/M/yyyy H:m", "24/02/2016 19:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e77, ticket: [[cost: null]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Jazz at the O Bistro",
                 venue: oswego, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "24/02/2016 18:00"),
-                end: Date.parse("d/M/yyyy H:m", "24/02/2016 20:00"),
-                entry: EntryMethod.NO_COVER
+                end: Date.parse("d/M/yyyy H:m", "24/02/2016 20:00")
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e79 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "\"NIGHT TIME KILL\" TOUR",
                 venue: tallyho, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "24/02/2016 21:30"),
-                end: Date.parse("d/M/yyyy H:m", "25/02/2016 01:00"),
-                entry: EntryMethod.TICKET, cost: "\$25"
+                end: Date.parse("d/M/yyyy H:m", "25/02/2016 01:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e79, ticket: [[cost: 25]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e80 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Iron Kingdom, Fractured Anatomy",
                 venue: cambie, age: AgeRestriction.NO_MINORS,
                 entry: EntryMethod.DOOR, cost: "\$10.00"
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e80, door: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e81 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "RIP Ian Fraser \"Lemmy\" Kilmister 1945-2015 a tribute fundraiser",
                 venue: copper, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "25/02/2016 21:30"),
-                entry: EntryMethod.DOOR, cost: ""
+                start: Date.parse("d/M/yyyy H:m", "25/02/2016 21:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e81, door: [[cost: null]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e82 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Jazz Jam Tom Vickery Trio",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "25/02/2016 20:00"),
-                entry: EntryMethod.DOOR, cost: "\$8/ \$5 students / free after 10pm"
+                coverNote: "Free after 10pm"
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e82, door: [[cost: 8], [cost: 5, note: "students"]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e83 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Beautiful Music by an Unknown Composer",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "25/02/2016 12:00"),
-                entry: EntryMethod.DONATION
+                start: Date.parse("d/M/yyyy H:m", "25/02/2016 12:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e83, byDonation: [[:]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Pulse Radio",
                 venue: bartholomews, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "26/02/2016 21:00"),
-                end: Date.parse("d/M/yyyy H:m", "27/02/2016 01:00"),
-                entry: EntryMethod.NO_COVER
+                end: Date.parse("d/M/yyyy H:m", "27/02/2016 01:00")
         )
 
         musicEventCreationService.createAndSaveMusicEvent(
@@ -980,72 +978,74 @@ class DataHelperService {
                 venue: camilles, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "26/02/2016 18:30"),
                 end: Date.parse("d/M/yyyy H:m", "26/02/2016 21:30"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e86 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Lifted with Jon Lee, J. Feud, Matterson",
                 venue: copper, age: AgeRestriction.NO_MINORS,
                 start: Date.parse("d/M/yyyy H:m", "26/02/2016 21:00"),
-                entry: EntryMethod.DOOR, cost: "TBA"
+                costNotes: "TBA"
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e86, door: [[cost: null]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e87 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Jazz Doubleshot at Hermann's",
                 venue: hermanns, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "26/02/2016 20:00"),
-                end: Date.parse("d/M/yyyy H:m", "26/02/2016 23:00"),
-                entry: EntryMethod.DOOR, cost: "\$20"
+                end: Date.parse("d/M/yyyy H:m", "26/02/2016 23:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e87, door: [[cost: 20]])
 
         musicEventCreationService.createAndSaveMusicEvent(
                 name: "Maureen Washington, Karel Roessingh",
                 venue: grand, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "26/02/2016 20:00"),
-                entry: EntryMethod.FREE
+                isFreeEvent: true
         )
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e89 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Fridaymusic",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "26/02/2016 12:30"),
-                entry: EntryMethod.DONATION
+                start: Date.parse("d/M/yyyy H:m", "26/02/2016 12:30")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e89, byDonation: [[:]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e90 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Student Composers Concert",
                 venue: phillip, age: AgeRestriction.NO_RESTRICTION,
-                start: Date.parse("d/M/yyyy H:m", "26/02/2016 20:00"),
-                entry: EntryMethod.DONATION
+                start: Date.parse("d/M/yyyy H:m", "26/02/2016 20:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e90, byDonation: [[:]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e91 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Mary Poppins (The Broadway Musical)",
                 venue: spectrum, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "26/02/2016 20:00"),
                 entry: EntryMethod.TICKET, cost: "\$12/\$10"
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e91, ticket: [[cost: 12], [cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e92 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Classified (**SOLD OUT**), Sonreal",
                 venue: sugar, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "26/02/2016 21:00"),
-                entry: EntryMethod.TICKET, cost: "\$28.50"
+                start: Date.parse("d/M/yyyy H:m", "26/02/2016 21:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e92, ticket: [[cost: 28.50]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e93 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "Roxxlyde, Rock Of Ages",
                 venue: sugar, age: AgeRestriction.NO_MINORS,
-                start: Date.parse("d/M/yyyy H:m", "26/02/2016 21:00"),
-                entry: EntryMethod.DOOR, cost: "\$10"
+                start: Date.parse("d/M/yyyy H:m", "26/02/2016 21:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e93, door: [[cost: 10]])
 
-        musicEventCreationService.createAndSaveMusicEvent(
+        def e94 = musicEventCreationService.createAndSaveMusicEvent(
                 name: "The Crooked Brothers The Croked Brothers",
                 venue: oakbay, age: AgeRestriction.NO_RESTRICTION,
                 start: Date.parse("d/M/yyyy H:m", "26/02/2016 19:30"),
-                end: Date.parse("d/M/yyyy H:m", "26/02/2016 22:00"),
-                entry: EntryMethod.DOOR_OR_TICKET, cost: "\$15 advance | \$20 at the door"
+                end: Date.parse("d/M/yyyy H:m", "26/02/2016 22:00")
         )
+        musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e94, ticket: [[cost: 15, note: "advance"]], door: [[cost: 20, note: "at the door"]])
     }
 }

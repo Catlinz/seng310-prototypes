@@ -1,14 +1,13 @@
-package com.seng310.loop.event
+package com.loop.event
 
-import com.loop.event.MusicEventFinderService
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(MusicEventFinderService)
-class MusicEventFinderServiceSpec extends Specification {
+@TestFor(CoverChargeHelperService)
+class CoverChargeHelperServiceSpec extends Specification {
 
     def setup() {
     }

@@ -1,4 +1,4 @@
-package com.seng310.loop.event
+package com.loop.event
 
 import com.loop.filters.EventFilters
 import com.seng310.loop.MusicEvent
@@ -27,7 +27,7 @@ class MusicEventFinderService {
                         }
                     }
                 }
-                if (filters?.distance) {
+                if (filters?.distance?.isValid) {
                     venue {
                         and {
                             between('lat', filters.distance.bounds.min.lat, filters.distance.bounds.max.lat)
@@ -42,7 +42,7 @@ class MusicEventFinderService {
             if (sort && sortOrder) { order(sort, sortOrder) }
         }
 
-        if (filters) { return filters.filterResults(results); }
+        if (filters) { return filters.processAndFilterResults(results); }
         else { return results }
     }
 

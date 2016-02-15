@@ -148,9 +148,12 @@ var Search = {
 
         if (Search.value != "") { params.value = Search.value; }
         $("input.loop-search-input").blur();
-
-        if (params.map) { Events.map(success, params); }
-        else { Events.list(success, params); }
+        var fn = function(data) {
+            Filters.updateUIAfterSearch(data.stats);
+            if (success) { success(data); }
+        };
+        if (params.map) { Events.map(fn, params); }
+        else { Events.list(fn, params); }
 
     },
 

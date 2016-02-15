@@ -126,10 +126,10 @@ P02.Map = {
 
     fetchResults: function() {
         if (!Search.checkState("map")) {
-            Search.storeState("map");
             Core.map.clearEventMarkers();
             Search.doSearch(function(data) {
-                Core.map.populate(data);
+                Search.storeState("map");
+                Core.map.populate(data.venues);
                 Core.map.zoomToFitAll();
             }, {map: true});
             P02.Map.topBarHeight = parseInt($(".screen.map .top-bar").innerHeight());
@@ -151,18 +151,34 @@ P02.Map = {
 };
 
 P02.Filters = {
+    distance: null,
+    cover: null,
+
     initialise: function() {
-        new UI.RangeSlider($(".filter.distance .range"), [0, 5000], UI.NumberFormat.Distance());
+        P02.Filters.distance = new UI.RangeSlider($(".filter.distance .range"), [0, 5000], UI.NumberFormat.Distance());
+        P02.Filters.cover = new UI.RangeSlider($(".filter.cover .range"), [0, 20], UI.NumberFormat.Price());
 
         $(".screen.filters .bottom-nav-bar a.apply").on("click", function() {
             var df = $(".filter.distance .range").data("rangeSlider");
-            Filters.distance.minRadius = df.values[0];
-            Filters.distance.maxRadius = df.values[1];
+            Filters.distance.minRadius = P02.Filters.distance.values[0];
+            Filters.distance.maxRadius = P02.Filters.distance.values[1];
+
+            Filters.cover.min = P02.Filters.cover.values[0];
+            Filters.cover.max = P02.Filters.cover.values[1];
+
             if (Screen.history[Screen.history.length -1] == "map") {
                 Screen.back(null, function() { P02.Map.fetchResults(); });
             }
             else { Screen.back(null, function() { P02.Search.fetchResults(); }); }
-        })
+        });
+
+        Filters.updateUIAfterSearch = function(stats) {
+            if (!stats) { stats = {} }
+            console.log(stats);
+            if (stats.distance) { P02.Filters.distance.reset(stats.distance.min, stats.distance.max) }
+            if (stats.cover) { P02.Filters.cover.reset(stats.cover.min, stats.cover.max); }
+
+        }
     }
 };
 
@@ -212,9 +228,9 @@ P02.Search = {
 
     fetchResults: function() {
         if (!Search.checkState("search")) {
-            Search.storeState("search");
             P02.Search.clearResults();
             Search.doSearch(function(data) {
+                Search.storeState("search");
                 var content = $("#events-content");
                 content.html(data.html);
                 content.data('scroll').updateViewAndContentSize();

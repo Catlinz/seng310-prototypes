@@ -9,14 +9,14 @@
                 <h3>Distance</h3>
                 <div class="range">
                     <div class="text"><span class="start">0m</span> - <span class="end">100m</span></div>
-                    <div class="slider"><div class="bar"></div><a class="start"></a><a class="end"></a></div>
+                    <div class="slider"><div class="bar"><div class="active"></div></div><a class="start"></a><a class="end"></a></div>
                 </div>
             </div>
             <div class="filter cover">
                 <h3>Cover Charge</h3>
                 <div class="range">
                     <div class="text"><span class="start">Free</span> - <span class="end">$20</span></div>
-                    <div class="slider"><div class="bar"></div><a class="start"></a><a class="end"></a></div>
+                    <div class="slider"><div class="bar"><div class="active"></div></div><a class="start"></a><a class="end"></a></div>
                 </div>
             </div>
             <div class="filter date">

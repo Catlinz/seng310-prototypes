@@ -182,38 +182,57 @@ a.see-map {
   position: relative;
 }
 /* line 31, prototype02/_filters.sass */
-.filter-list .filter .range .slider .bar {
+.filter-list .filter .range .slider .bar, .filter-list .filter .range .slider .bar .active {
   position: absolute;
-  left: 12px;
-  right: 12px;
-  top: 9px;
-  bottom: 9px;
-  background: #009bff;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 39, prototype02/_filters.sass */
+/* line 34, prototype02/_filters.sass */
+.filter-list .filter .range .slider .bar {
+  left: 12px;
+  right: 12px;
+  top: 9px;
+  bottom: 9px;
+  background: #c0c0c0;
+}
+/* line 40, prototype02/_filters.sass */
+.filter-list .filter .range .slider .bar .active {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #009bff;
+}
+/* line 46, prototype02/_filters.sass */
 .filter-list .filter .range .slider .start, .filter-list .filter .range .slider .end {
   position: absolute;
   top: 0;
   display: block;
   width: 22px;
   height: 22px;
-  background: #eeeeee;
-  border: 1px solid #c0c0c0;
+  background: #eaecee;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   -moz-border-radius: 12px;
   -webkit-border-radius: 12px;
   border-radius: 12px;
   -moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  -moz-transition: background 0.2s;
+  -o-transition: background 0.2s;
+  -webkit-transition: background 0.2s;
+  transition: background 0.2s;
 }
-/* line 49, prototype02/_filters.sass */
+/* line 57, prototype02/_filters.sass */
+.filter-list .filter .range .slider .start:hover, .filter-list .filter .range .slider .end:hover {
+  background: #F9D182;
+}
+/* line 59, prototype02/_filters.sass */
 .filter-list .filter .range .slider .start {
   left: 0;
 }
-/* line 51, prototype02/_filters.sass */
+/* line 61, prototype02/_filters.sass */
 .filter-list .filter .range .slider .end {
   right: 0;
 }
@@ -587,51 +606,63 @@ a.see-map {
   font-size: 9pt;
   padding: 0 12px 0 0;
 }
+/* line 191, prototype02.sass */
+.event .cover-charge {
+  padding-right: 12px;
+}
+/* line 193, prototype02.sass */
+.event .cover-charge .cover-amt, .event .cover-charge .free-event, .event .cover-charge .by-donation {
+  font-weight: 600;
+}
+/* line 195, prototype02.sass */
+.event .cover-charge .by-donation {
+  padding-right: 4px;
+}
 
-/* line 196, prototype02.sass */
+/* line 202, prototype02.sass */
 #screen-container.ios-standalone #nav-bar ul li a.close-nav {
   margin-top: 20px;
 }
-/* line 198, prototype02.sass */
+/* line 204, prototype02.sass */
 #screen-container.ios-standalone .top-bar {
   padding-top: 20px;
 }
-/* line 200, prototype02.sass */
+/* line 206, prototype02.sass */
 #screen-container.ios-standalone .top-bar .icon {
   top: 20px;
 }
-/* line 202, prototype02.sass */
+/* line 208, prototype02.sass */
 #screen-container.ios-standalone .filter-list {
   top: 70px;
 }
-/* line 204, prototype02.sass */
+/* line 210, prototype02.sass */
 #screen-container.ios-standalone #event-list {
   top: 70px;
 }
 
 @media (max-height: 400px) {
-  /* line 212, prototype02.sass */
+  /* line 218, prototype02.sass */
   #screen-container.ios-standalone #nav-bar ul li a.close-nav {
     margin-top: 0;
   }
-  /* line 214, prototype02.sass */
+  /* line 220, prototype02.sass */
   #screen-container.ios-standalone .top-bar {
     padding-top: 0;
   }
-  /* line 216, prototype02.sass */
+  /* line 222, prototype02.sass */
   #screen-container.ios-standalone .top-bar .icon {
     top: 0;
   }
-  /* line 218, prototype02.sass */
+  /* line 224, prototype02.sass */
   #screen-container.ios-standalone .filter-list {
     top: 50px;
   }
-  /* line 220, prototype02.sass */
+  /* line 226, prototype02.sass */
   #screen-container.ios-standalone #event-list {
     top: 50px;
   }
 
-  /* line 225, prototype02.sass */
+  /* line 231, prototype02.sass */
   #nav-bar ul li a {
     height: 65px;
     background: no-repeat center 7px;
@@ -640,7 +671,7 @@ a.see-map {
     line-height: 102px;
     font-size: 9pt;
   }
-  /* line 232, prototype02.sass */
+  /* line 238, prototype02.sass */
   #nav-bar ul li a.close-nav {
     height: 50px;
   }

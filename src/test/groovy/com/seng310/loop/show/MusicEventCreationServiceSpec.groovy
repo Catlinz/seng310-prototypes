@@ -1,5 +1,6 @@
 package com.seng310.loop.show
 
+import com.loop.event.MusicEventCreationService
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 

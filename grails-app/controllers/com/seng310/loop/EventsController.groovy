@@ -30,10 +30,12 @@ class EventsController {
 
     def list() {
         String search = params.value;
-        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(search, new EventFilters(params), params);
+        EventFilters ef = new EventFilters(params)
+        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(search, ef, params);
 
         def data = [
                 //events: events.collect { [id: it.id, lat: it.venue.lat, lng: it.venue.lng, venue: it.venue.id] },
+                stats: ef.stats,
                 html: g.render(template: "/prototype/p${params.p}/list", model:[events: events])
         ]
         render data as JSON
@@ -41,13 +43,14 @@ class EventsController {
 
     def map() {
         String search = params.value;
-        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(search, new EventFilters(params), params);
+        EventFilters ef = new EventFilters(params)
+        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(search, ef, params);
 
         def venues = events.collect{ [id: it.venue.id, name: it.venue.name, lat: it.venue.lat, lng: it.venue.lng, events: []] }.unique{ it.id }
         venues.each{ v->
             events.each{ e-> if (e.venue.id == v.id) { v.events.add([id: e.id]) } }
         }
-
-        render venues as JSON
+        def data = [stats: ef.stats, venues: venues]
+        render data as JSON
     }
 }

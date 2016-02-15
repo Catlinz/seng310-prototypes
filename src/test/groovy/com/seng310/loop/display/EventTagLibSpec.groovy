@@ -1,5 +1,6 @@
 package com.seng310.loop.display
 
+import com.loop.display.EventTagLib
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
