@@ -1,12 +1,13 @@
 package com.seng310.loop.event
 
+import com.loop.filters.EventFilters
 import com.seng310.loop.MusicEvent
 import grails.transaction.Transactional
 
 @Transactional
 class MusicEventFinderService {
 
-    List<MusicEvent> searchForMusicEvents(String keywords, def filters, Map params = [:]) {
+    List<MusicEvent> searchForMusicEvents(String keywords, EventFilters filters, Map params = [:]) {
         int max = (params.max) ? params.max as int : 0
         int offset = (params.offset) ? params.offset as int : 0
         String sort = getSortByProperty(params.sort);
@@ -14,21 +15,35 @@ class MusicEventFinderService {
 
         String[] words = (keywords) ? keywords.split("\\s+") : []
 
-        return (List<MusicEvent>)MusicEvent.createCriteria().list {
-            if (words.size() > 0) {
-                or {
-                    words.each { ilike("name", "%${it}%") }
+        List<MusicEvent> results = (List<MusicEvent>)MusicEvent.createCriteria().list {
+            and {
+                if (words.size() > 0) {
+                    or {
+                        words.each { ilike("name", "%${it}%") }
+                        venue {
+                            words.each {
+                                ilike("name", "%${it}%")
+                            }
+                        }
+                    }
+                }
+                if (filters?.distance) {
                     venue {
-                        words.each {
-                            ilike("name", "%${it}%")
+                        and {
+                            between('lat', filters.distance.bounds.min.lat, filters.distance.bounds.max.lat)
+                            between('lng', filters.distance.bounds.min.lng, filters.distance.bounds.max.lng)
                         }
                     }
                 }
             }
+
             if (max > 0) { maxResults(max) }
             if (offset > 0) { firstResult(offset) }
             if (sort && sortOrder) { order(sort, sortOrder) }
         }
+
+        if (filters) { return filters.filterResults(results); }
+        else { return results }
     }
 
 

@@ -258,6 +258,35 @@ a.see-map {
   -khtml-opacity: 0;
   opacity: 0;
 }
+/* line 22, prototype02/_map.sass */
+.screen.map .bottom-nav-bar .gm-scroll_wrapper {
+  position: absolute;
+  top: 42px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* line 29, prototype02/_map.sass */
+#selected-event {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+/* line 31, prototype02/_map.sass */
+#selected-event h2 {
+  margin: 0;
+  color: #515355;
+  padding: 10px 14px 0 10px;
+  font-size: 14pt;
+}
+/* line 37, prototype02/_map.sass */
+#selected-event .venue .event {
+  border-top: 0;
+  border-bottom-width: 1px;
+}
+/* line 40, prototype02/_map.sass */
+#selected-event .venue .event:last-child {
+  border: 0;
+}
 
 /* line 1, prototype02/_search.sass */
 .screen.search {
@@ -530,76 +559,79 @@ a.see-map {
   outline: none;
   position: relative;
   padding: 16px 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border: 0 solid rgba(0, 0, 0, 0.1);
+  border-top-width: 1px;
   font-size: 10pt;
   color: #56585a;
   cursor: pointer;
   cursor: hand;
 }
-/* line 175, prototype02.sass */
+/* line 176, prototype02.sass */
 .event .title {
   font-weight: 500;
   font-size: 11pt;
   color: black;
   line-height: 1.3;
   margin: 0;
+  padding: 0 14px 0 0;
 }
-/* line 181, prototype02.sass */
+/* line 183, prototype02.sass */
 .event .venue {
   font-weight: 500;
   font-size: 10pt;
+  padding: 0 5px 0 0;
 }
-/* line 184, prototype02.sass */
+/* line 187, prototype02.sass */
 .event .time {
   white-space: nowrap;
   font-size: 9pt;
-  padding-left: 4px;
+  padding: 0 12px 0 0;
 }
 
-/* line 193, prototype02.sass */
+/* line 196, prototype02.sass */
 #screen-container.ios-standalone #nav-bar ul li a.close-nav {
   margin-top: 20px;
 }
-/* line 195, prototype02.sass */
+/* line 198, prototype02.sass */
 #screen-container.ios-standalone .top-bar {
   padding-top: 20px;
 }
-/* line 197, prototype02.sass */
+/* line 200, prototype02.sass */
 #screen-container.ios-standalone .top-bar .icon {
   top: 20px;
 }
-/* line 199, prototype02.sass */
+/* line 202, prototype02.sass */
 #screen-container.ios-standalone .filter-list {
   top: 70px;
 }
-/* line 201, prototype02.sass */
+/* line 204, prototype02.sass */
 #screen-container.ios-standalone #event-list {
   top: 70px;
 }
 
 @media (max-height: 400px) {
-  /* line 209, prototype02.sass */
+  /* line 212, prototype02.sass */
   #screen-container.ios-standalone #nav-bar ul li a.close-nav {
     margin-top: 0;
   }
-  /* line 211, prototype02.sass */
+  /* line 214, prototype02.sass */
   #screen-container.ios-standalone .top-bar {
     padding-top: 0;
   }
-  /* line 213, prototype02.sass */
+  /* line 216, prototype02.sass */
   #screen-container.ios-standalone .top-bar .icon {
     top: 0;
   }
-  /* line 215, prototype02.sass */
+  /* line 218, prototype02.sass */
   #screen-container.ios-standalone .filter-list {
     top: 50px;
   }
-  /* line 217, prototype02.sass */
+  /* line 220, prototype02.sass */
   #screen-container.ios-standalone #event-list {
     top: 50px;
   }
 
-  /* line 222, prototype02.sass */
+  /* line 225, prototype02.sass */
   #nav-bar ul li a {
     height: 65px;
     background: no-repeat center 7px;
@@ -608,7 +640,7 @@ a.see-map {
     line-height: 102px;
     font-size: 9pt;
   }
-  /* line 229, prototype02.sass */
+  /* line 232, prototype02.sass */
   #nav-bar ul li a.close-nav {
     height: 50px;
   }

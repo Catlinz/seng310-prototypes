@@ -1,6 +1,7 @@
 package com.seng310.loop
 
-import com.seng310.loop.utils.Str
+import com.loop.utils.LatLng
+import com.loop.utils.Str
 import grails.converters.JSON
 
 class MusicEvent {
@@ -23,6 +24,8 @@ class MusicEvent {
         end nullable: true
         cost nullable: true
     }
+
+    transient public LatLng location() { return new LatLng(venue.lat, venue.lng) }
 
     static void registerJSONMarshaller() {
         JSON.registerObjectMarshaller(MusicEvent) { MusicEvent e ->

@@ -16,7 +16,7 @@
             <a class="show-filters right ctrl-link" data-link="filters">Filters</a>
         </div>
         <div class="result-nav hidden"><a class="back left ctrl-link">Back</a></div>
-        <div id="selected-event">
+        <div class="gm-scrollable" id="selected-event" data-gmAutoHide="true">
             <div class="event">
                 <h3 class="title"></h3>
                 <a class="venue"></a>

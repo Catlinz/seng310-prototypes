@@ -72,6 +72,6 @@
 
     <div class="bottom-nav-bar">
         <a class="cancel left ctrl-link" data-link="_back">Cancel</a>
-        <a class="apply right ctrl-link" data-link="_back">Apply</a>
+        <a class="apply right">Apply</a>
     </div>
 </div>

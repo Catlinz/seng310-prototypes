@@ -1,6 +1,5 @@
 package com.seng310.loop
 
-import com.seng310.loop.utils.Str
 import grails.converters.JSON
 
 class Venue {

@@ -1,7 +1,7 @@
 package com.seng310.loop.display
 
 import com.seng310.loop.MusicEvent
-import com.seng310.loop.utils.Str
+import com.loop.utils.Str
 
 class EventTagLib {
     static namespace = "loop"

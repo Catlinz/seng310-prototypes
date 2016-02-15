@@ -11,72 +11,117 @@ P02.Home = {
     }
 };
 
-P02.Map = {
-    onHideResultGoBack: false,
+P02.Preview = {
+    jq: {
+        bar: null,
+        cont: null,
+        defNav: null,
+        resNav: null
+    },
 
-    doShowResult: function(id, noAnim) {
-        var se_div = $("#selected-event");
-        var bn = $(".screen.map .bottom-nav-bar");
-        var nav_hide = bn.find(".default-nav");
-        var nav_show = bn.find(".result-nav");
+    calcHeight: function() {
+        return Math.min(this.expHeight(), this.maxHeight());
+    },
 
-        var h = parseInt(se_div.innerHeight()) + parseInt(bn.find(".default-nav").innerHeight());
+    expHeight: function() {
+        return parseInt(P02.Preview.jq.cont.innerHeight()) + P02.Preview.minHeight();
+    },
 
-        bn.stop(true);
-        nav_hide.stop(true);
-        nav_show.stop(true);
-        if (noAnim) {
-            nav_hide.css("opacity", 0).removeClass('hidden').addClass('hidden');
-            nav_show.css("opacity", 1.0).removeClass('hidden');
-            bn.css('height', h);
-        } else {
-            bn.animate({height: h}, 300);
-            nav_hide.animate({opacity: 0}, 200, function() {
-                nav_hide.removeClass('hidden').addClass('hidden');
-                nav_show.removeClass('hidden').animate({opacity: 1}, 200);
+    hide: function(anim) {
+        if (P02.Preview.hide.goto) {
+            var s = P02.Preview.hide.goto;
+            P02.Preview.hide.goto = null;
+            Screen.goto(s, function() { P02.Preview.hide(false); });
+            return;
+        }
+        if (anim != false) { anim = true; }
+
+        var h = P02.Preview.minHeight();
+        P02.Preview.stopAnim();
+        P02.Preview.jq.cont.data('scroll').scrollbar.hide(300);
+        if (anim) {
+            P02.Preview.jq.bar.animate({height: h}, 300, function() { P02.Preview.jq.bar.removeAttr("style"); });
+            P02.Preview.jq.resNav.animate({opacity: 0}, 200, function() {
+                P02.Preview.jq.resNav.removeClass('hidden').addClass('hidden');
+                P02.Preview.jq.defNav.removeClass('hidden').animate({opacity: 1}, 200);
             });
         }
+        else {
+            P02.Preview.jq.resNav.css("opacity", 0).removeClass('hidden').addClass('hidden');
+            P02.Preview.jq.defNav.css("opacity", 1.0).removeClass('hidden');
+            P02.Preview.jq.bar.removeAttr("style");
+        }
 
-        Core.map.selectEventMarker(id);
+        if (P02.Preview.hide.after) { P02.Preview.hide.after(); }
     },
 
-  showResult: function(id, noAnim) {
-      Events.get({id: id, html: true}, function(data) {
-          $("#selected-event").html(data.html);
-          P02.Map.doShowResult(id, noAnim)
-      });
+    initialise: function() {
+        P02.Preview.jq.bar = $(".screen.map .bottom-nav-bar");
+        P02.Preview.jq.cont = $("#selected-event");
+        P02.Preview.jq.defNav = P02.Preview.jq.bar.find('.default-nav');
+        P02.Preview.jq.resNav = P02.Preview.jq.bar.find('.result-nav');
     },
 
-    hideResult: function(noAnim) {
-        if (P02.Map.onHideResultGoBack) {
-            P02.Map.onHideResultGoBack = false;
-            Screen.goto('search', function() { P02.Map.hideResult(true); });
+    maxHeight: function() {
+        return parseInt($(".screen.active").innerHeight()*0.7);
+    },
+
+    minHeight: function() {
+        return Math.max(parseInt(P02.Preview.jq.defNav.innerHeight()), parseInt(P02.Preview.jq.resNav.innerHeight()));
+    },
+
+    show: function(anim) {
+        if (anim != false) { anim = true; }
+
+        var h = P02.Preview.calcHeight();
+
+        P02.Preview.stopAnim();
+        if (anim) {
+            P02.Preview.jq.bar.animate({height: h}, 300, function() {
+                P02.Preview.jq.cont.data('scroll').updateViewAndContentSize();
+            });
+            P02.Preview.jq.defNav.animate({opacity: 0}, 200, function() {
+                P02.Preview.jq.defNav.removeClass('hidden').addClass('hidden');
+                P02.Preview.jq.resNav.removeClass('hidden').animate({opacity: 1}, 200);
+            });
         }
         else {
-            var bn = $(".screen.map .bottom-nav-bar");
-            var nav_show = bn.find(".default-nav");
-            var nav_hide = bn.find(".result-nav");
-
-            var h = Math.max(parseInt(nav_hide.innerHeight()), parseInt(nav_show.innerHeight()));
-            bn.stop(true);
-            nav_hide.stop(true);
-            nav_show.stop(true);
-
-            if (noAnim) {
-                nav_hide.css("opacity", 0).removeClass('hidden').addClass('hidden');
-                nav_show.css("opacity", 1.0).removeClass('hidden');
-                bn.removeAttr("style");
-            } else {
-                bn.animate({height: h}, 300, function() { bn.removeAttr("style"); });
-                nav_hide.animate({opacity: 0}, 200, function() {
-                    nav_hide.removeClass('hidden').addClass('hidden');
-                    nav_show.removeClass('hidden').animate({opacity: 1}, 200);
-                });
-            }
-
-            Core.map.showAllEventMarkers();
-            //Core.map.centerOnLocation();
+            P02.Preview.jq.defNav.css("opacity", 0).removeClass('hidden').addClass('hidden');
+            P02.Preview.jq.resNav.css("opacity", 1.0).removeClass('hidden');
+            P02.Preview.jq.bar.css('height', h);
+            P02.Preview.jq.cont.data('scroll').updateViewAndContentSize();
         }
+        return h;
+    },
+
+    stopAnim: function() {
+        P02.Preview.jq.bar.stop(true);
+        P02.Preview.jq.defNav.stop(true);
+        P02.Preview.jq.resNav.stop(true);
+    }
+};
+
+P02.Preview.hide.goto = null;
+P02.Preview.hide.after = null;
+
+P02.Map = {
+
+    topBarHeight: 0,
+
+  showEvent: function(id, anim) {
+      Events.get(function(data) {
+          $("#selected-event").html(data.html);
+          var h = P02.Preview.show(anim);
+          Core.map.selectVenueByEventId(id, {padding: [P02.Map.topBarHeight,0,h,0]});
+      }, {id: id, html: true});
+    },
+
+    showVenue: function(id, anim) {
+        Venue.get(function(data) {
+            $("#selected-event").html(data.html);
+            var h =P02.Preview.show(anim);
+            Core.map.selectVenueById(id, {padding: [P02.Map.topBarHeight,0,h,0]});
+        }, {id: id, html: true});
     },
 
     fetchResults: function() {
@@ -84,23 +129,43 @@ P02.Map = {
             Search.storeState("map");
             Core.map.clearEventMarkers();
             Search.doSearch(function(data) {
-                Core.map.populate(data.events);
-                Core.map.zoomToFitEventsAndLocation();
-            });
+                Core.map.populate(data);
+                Core.map.zoomToFitAll();
+            }, {map: true});
+            P02.Map.topBarHeight = parseInt($(".screen.map .top-bar").innerHeight());
         }
     },
 
     init: function() {
-        $(".screen.map .bottom-nav-bar a.back").on("click", function () { P02.Map.hideResult(); });
+        P02.Preview.hide.after = function() { Core.map.selectNone(); };
+
+        $(".screen.map .bottom-nav-bar a.back").on("click", function () { P02.Preview.hide(); });
 
         $(".screen.map form").on('submit', function() {
-            P02.Map.onHideResultGoBack = false;
-            P02.Map.hideResult();
+            P02.Preview.hide.goto = null;
+            P02.Preview.hide();
             P02.Map.fetchResults();
             return false;
         });
     }
 };
+
+P02.Filters = {
+    initialise: function() {
+        new UI.RangeSlider($(".filter.distance .range"), [0, 5000], UI.NumberFormat.Distance());
+
+        $(".screen.filters .bottom-nav-bar a.apply").on("click", function() {
+            var df = $(".filter.distance .range").data("rangeSlider");
+            Filters.distance.minRadius = df.values[0];
+            Filters.distance.maxRadius = df.values[1];
+            if (Screen.history[Screen.history.length -1] == "map") {
+                Screen.back(null, function() { P02.Map.fetchResults(); });
+            }
+            else { Screen.back(null, function() { P02.Search.fetchResults(); }); }
+        })
+    }
+};
+
 
 Core.screens.home = {
     onShow: function() {
@@ -111,7 +176,7 @@ Core.screens.home = {
 
 Core.screens.map = {
     onDisappear: function() {
-        P02.Map.onHideResultGoBack = false;
+        P02.Preview.hide.goto = null;
     },
 
     onShow: function() {
@@ -119,7 +184,7 @@ Core.screens.map = {
             Core.map.initialise();
         }
         if (!Core.map.onMarkerClicked) {
-            Core.map.onMarkerClicked = function(id) { P02.Map.showResult(id); };
+            Core.map.onMarkerClicked = function(m) { P02.Map.showVenue(m.loop.venue.id); };
         }
         P02.Map.fetchResults();
     }
@@ -149,20 +214,20 @@ P02.Search = {
         if (!Search.checkState("search")) {
             Search.storeState("search");
             P02.Search.clearResults();
-            Search.doSearch({html: true}, function(data) {
+            Search.doSearch(function(data) {
                 var content = $("#events-content");
                 content.html(data.html);
                 content.data('scroll').updateViewAndContentSize();
                 content.data('scroll').setScroll(0)
-            });
+            }, {list: true});
         }
     },
 
     init: function() {
         $("#events-content").on("click", ".event", function(e) {
             var id = $(e.currentTarget).attr("data-id");
-            P02.Map.onHideResultGoBack = true;
-            Screen.goto('map', function() { P02.Map.showResult(id, true); });
+            P02.Preview.hide.goto = 'search';
+            Screen.goto('map', function() { P02.Map.showEvent(id, false); });
         });
 
         $(".screen.search form").on('submit', function() {
@@ -199,4 +264,6 @@ $(document).ready(function() {
     P02.Map.init();
     P02.Search.init();
     P02.Menu.initialise();
+    P02.Preview.initialise();
+    P02.Filters.initialise();
 });

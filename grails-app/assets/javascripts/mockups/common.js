@@ -3,8 +3,9 @@
 //=require ../core/scroll.js
 //=require ../core/menu.js
 //=require ../core/dialog.js
-//=require map
 //=require core
+//=require map
+//=require filters
 //=require_self
 
 
@@ -95,6 +96,8 @@ var Core = {
 };
 
 var Location = {
+    r_earth: 6378137.0,
+
     random: function(latlng, radiusMetres) {
         var w = (radiusMetres / 111000.0) * Math.sqrt(Math.random());
         var t = 2 * Math.PI * Math.random();
@@ -105,6 +108,19 @@ var Location = {
         x = x / Math.cos(latlng.lng);
 
         return {lat: x + latlng.lat, lng: y + latlng.lng};
+    },
+
+    rect: function(center, radius) {
+        var max = {
+            lat: center.lat + (radius / Location.r_earth) * (180.0 / Math.PI),
+            lng: center.lng + (radius / Location.r_earth) * (180.0 / Math.PI) / Math.cos(center.lat * Math.PI / 180.0)
+        };
+
+        var min = {
+            lat: center.lat + (-radius / Location.r_earth) * (180.0 / Math.PI),
+            lng: center.lng + (-radius / Location.r_earth) * (180.0 / Math.PI) / Math.cos(center.lat * Math.PI / 180.0)
+        };
+        return {max: max, min: min};
     }
 };
 
@@ -118,21 +134,24 @@ var Search = {
 
     checkState: function(id) {
         if (Search.state[id]) {
-            if (Search.state[id].value == Search.value) {
+            if ((Search.state[id].value == Search.value) &&
+                (Search.state[id].filters == Filters.hashCode())) {
                 return true;
             }
         }
         return false
     },
 
-    doSearch: function(params, success) {
-        if (typeof(params) == "function") {
-            success = params;
-            params = {};
-        }
+    doSearch: function(success, params) {
+        if (!params) { params = {} }
+        params = Filters.setParams(params);
+
         if (Search.value != "") { params.value = Search.value; }
         $("input.loop-search-input").blur();
-        Events.list(params, success);
+
+        if (params.map) { Events.map(success, params); }
+        else { Events.list(success, params); }
+
     },
 
     isEmpty: function() { return Search.value.trim() == ""; },
@@ -166,7 +185,7 @@ var Search = {
     },
 
     storeState: function(id) {
-        Search.state[id] = {value: Search.value};
+        Search.state[id] = {value: Search.value, filters: Filters.hashCode()};
     }
 };
 
@@ -176,7 +195,8 @@ var Events = {
 
     },
 
-    get: function(params, success) { /* { html:<T|F>, details:<T|F>, id: } */
+    get: function(success, params) { /* { html:<T|F>, details:<T|F>, id: } */
+        if (!params) { params = {}; }
         params.p = Core.id;
         GM.Ajax.get('/events/get', params, {
             success: function(data, textStatus, jqXHR) {
@@ -186,14 +206,39 @@ var Events = {
         });
     },
 
-    /** params: {value:String, html:Bool} **/
-    list: function(params, success) {
-        if (typeof(params) == "function") {
-            success = params;
-            params = {};
-        }
+    /** params: { value:String } **/
+    list: function(success, params) {
+        if (!params) { params = {}; }
         params.p = Core.id;
         GM.Ajax.get('/events/list', params, {
+            success: function(data, textStatus, jqXHR) {
+                if (success) { success(data); }
+            },
+            complete: function(jqXHR, textStatus) {}
+        });
+    },
+
+    /** params: { value:String } **/
+    map: function(success, params) {
+        GM.Ajax.get('/events/map', params, {
+            success: function(data, textStatus, jqXHR) {
+                if (success) { success(data); }
+            },
+            complete: function(jqXHR, textStatus) {}
+        });
+    }
+};
+
+var Venue = {
+
+    init: function() {
+
+    },
+
+    get: function(success, params) { /* { html:<T|F>, details:<T|F>, id: } */
+        if (!params) { params = {}; }
+        params.p = Core.id;
+        GM.Ajax.get('/venue/get', params, {
             success: function(data, textStatus, jqXHR) {
                 if (success) { success(data); }
             },
@@ -209,5 +254,9 @@ $(document).ready(function() {
     Screen.init();
     Search.init();
     Events.init();
+    Venue.init();
     Core.map = new Map('map');
+
+    Filters.initialise();
+    Filters.distance.center = Core.map.location;
 });

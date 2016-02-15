@@ -17,19 +17,23 @@ function Map(id, latlng, initialZoom) {
 Map.prototype = {
     constructor: Map,
 
-    addEventMarker: function(event) {
-        var m = Map[this.api].addEventMarker(this, event);
-        m.loopEventID = event.id;
+    addVenueToMap: function(venue) {
+        var m = Map[this.api].addVenueMarker(this, venue);
+        m.loop = {
+            venue: { id: venue.id },
+            events: venue.events
+        };
         this.markers.push(m);
     },
 
-    centerOnLocation: function() {
-        Map[this.api].centerOnMarker(this, this.locMarker);
+    centerOnLocation: function(options) {
+        this.centerOnMarker(this.locMarker, options);
     },
 
-    centerOnMarker: function(idOrMarker) {
-        if (idOrMarker.loopEventID) { Map[this.api].centerOnMarker(this, idOrMarker); }
-        else { Map[this.api].centerOnMarker(this, this.getEventMarkerByID(id)); }
+    /** params can be a venue ID, a marker of a map with either the 'venue' or 'event' id specified. **/
+    centerOnMarker: function(params, options) {
+        var marker = (params.loop) ? params : ((params.event) ? this.getMarkerByEventId(params.event) : ((params.venue) ? this.getMarkerByVenueId(params.venue) : this.getMarkerByVenueId(params)));
+        if (marker) { Map[this.api].centerOnMarker(this, marker, options); }
     },
 
     clearEventMarkers: function() {
@@ -42,12 +46,32 @@ Map.prototype = {
 
     fire: function(action) { this.h.fire(action); },
 
-    getEventMarkerByID: function(id) {
+    getMarkerByEventId: function(id) {
+        var idx = this.getMarkerIndexByEventId(id);
+        if (idx != -1) { return this.markers[idx]; }
+        else { return null; }
+    },
+
+    getMarkerByVenueId: function(id) {
+        var idx = this.getMarkerIndexByVenueId(id);
+        if (idx != -1) { return this.markers[idx]; }
+        else { return null; }
+    },
+
+    getMarkerIndexByEventId: function(id) {
         for (var i = 0; i < this.markers.length; ++i) {
-            if (this.markers[i].loopEventID == id) {
-                return this.markers[i];
+            for (var j = 0; j < this.markers[i].loop.events.length; ++j) {
+                if (this.markers[i].loop.events[j].id == id) { return i; }
             }
         }
+        return -1;
+    },
+
+    getMarkerIndexByVenueId: function(id) {
+        for (var i = 0; i < this.markers.length; ++i) {
+            if (this.markers[i].loop.venue.id == id) { return i; }
+        }
+        return -1;
     },
 
     initialise: function() {
@@ -68,74 +92,78 @@ Map.prototype = {
     off: function(action) { this.h.off(action); },
     on: function(action, func) { return this.h.on(action, func); },
 
-    populate: function(events) {
-        for (var i = 0; i < events.length; ++i) {
-            this.addEventMarker(events[i]);
+    populate: function(venues) {
+        for (var i = 0; i < venues.length; ++i) {
+            this.addVenueToMap(venues[i]);
         }
     },
 
-    showAllEventMarkers: function() {
-        if (this.selectedMarker) {
-            for (var i = 0; i < this.markers.length; ++i) {
-                if (this.selectedMarker.loopEventID != this.markers[i].loopEventID) {
-                    Map[this.api].showMarker(this, this.markers[i]);
-                }
-            }
-            this.selectedMarker = null
-        }
+    selectMarker: function(marker, options) {
+        this.selectedMarker = marker;
+        Map[this.api].focusMarker(this, marker);
+        this.centerOnMarker(marker, options);
     },
 
-    selectEventMarker: function(idOrMarker) {
-        var m = (idOrMarker.loopEventID) ? idOrMarker : this.getEventMarkerByID(idOrMarker);
-        for (var i = 0; i < this.markers.length; ++i) {
-            if (this.markers[i].loopEventID != m.loopEventID) {
-                Map[this.api].hideMarker(this, this.markers[i]);
-            }
-        }
-        this.selectedMarker = m;
-        this.centerOnMarker(m);
+    selectNone: function() {
+        Map[this.api].focusMarker(this, null);
+        this.selectedMarker = null;
     },
 
-    zoomToFitEventsAndLocation: function(maxZoom) {
+    selectVenueByEventId: function(id, options) {
+        this.selectMarker(this.getMarkerByEventId(id), options);
+    },
+
+    selectVenueById: function(id, options) {
+        this.selectMarker(this.getMarkerByVenueId(id), options);
+    },
+
+    zoomToFitAll: function(maxZoom) {
         if (!maxZoom) { maxZoom = this.initialZoom; }
         var m = this.markers.slice(0);
         m.push(this.locMarker);
         Map[this.api].zoomToFitMarkers(this, m, maxZoom)
-    },
-
-    zoomToFitAllEvents: function(maxZoom) {
-        if (!maxZoom) { maxZoom = this.initialZoom; }
-        Map[this.api].zoomToFitMarkers(this, this.markers, maxZoom)
     }
 };
 
 Map.defaultLocation = {lat: 48.441216117602345, lng: -123.3530330657959};
 
 Map.google = {
-    addEventMarker: function(self, event) {
-        var marker = new google.maps.Marker({
-            position: {lat: event.lat, lng: event.lng},
+    addVenueMarker: function(self, venue) {
+        var params = {
+            position: {lat: venue.lat, lng: venue.lng},
             map: self.map,
-            title: "Event",
-            label: {
-                text: ""+event.id,
+            title: venue.name,
+            icon: {
+                url: "/assets/location-icon-2x.png",
+                scaledSize: new google.maps.Size(25, 41),
+                labelOrigin: new google.maps.Point(12, 13)
+            }
+        };
+        if (venue.events.length > 0) {
+            params.label = {
+                text: ""+(venue.events.length),
                 color: 'white',
                 fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
                 fontSize: '12pt',
                 fontWeight: '500'
-            },
-            icon: {
-                url: "/assets/marker-icon-2x.png",
-                scaledSize: new google.maps.Size(25, 41),
-                labelOrigin: new google.maps.Point(12,13)
-            }
-        });
-        marker.addListener('click', function() { if (self.onMarkerClicked) { self.onMarkerClicked(event.id);} });
+            };
+            params.icon.url = "/assets/marker-icon-2x.png"
+        }
+        var marker = new google.maps.Marker(params);
+        marker.addListener('click', function() { if (self.onMarkerClicked) { self.onMarkerClicked(this);} });
         return marker;
     },
 
-    centerOnMarker: function(self, marker) {
-        self.map.panTo(marker.getPosition());
+    centerOnMarker: function(self, marker, opt) {
+        if (!opt) { opt = {}; }
+        if (opt.padding) {
+            var p = {t: opt.padding[0], r: opt.padding[1], b: opt.padding[2], l: opt.padding[3]};
+            var c = Map.google.project(self, self.map.getCenter());
+            var mc = Map.google.project(self, marker.getPosition());
+            self.map.panBy(mc.x + p.l - (p.l + p.r)*0.5 - c.x, mc.y - p.t + (p.t + p.b)*0.5 - c.y);
+        }
+        else { self.map.panTo(marker.getPosition()); }
+
     },
 
     createLocationMarker: function(self) {
@@ -148,11 +176,22 @@ Map.google = {
                 scaledSize: new google.maps.Size(25, 41)
             }
         });
+        self.locMarker.loop = {location: true};
         self.locMarker.addListener('click', function() { Map.google.centerOnMarker(self, self.locMarker); });
     },
 
-    hideMarker: function(self, marker) {
-        marker.setMap(null);
+    focusMarker: function(self, marker) {
+        if (marker) {
+            for (var i = 0; i < self.markers.length; ++i) {
+                if (self.markers[i] != marker) { self.markers[i].setOpacity(0.3); }
+            }
+            marker.setOpacity(1.0);
+        }
+        else {
+            for (var i = 0; i < self.markers.length; ++i) {
+                self.markers[i].setOpacity(1.0);
+            }
+        }
     },
 
     initialise: function(self) {
@@ -164,12 +203,15 @@ Map.google = {
         Map.google.updateLocationMarker(self);
     },
 
-    removeMarker: function(self, marker) {
-        marker.setMap(null);
+    project: function(self, latlng) {
+        var scale = 1 << self.map.getZoom();
+        var p = self.map.getProjection().fromLatLngToPoint(latlng);
+        return new google.maps.Point(Math.floor(p.x * scale), Math.floor(p.y * scale));
+
     },
 
-    showMarker: function(self, marker) {
-        marker.setMap(self.map);
+    removeMarker: function(self, marker) {
+        marker.setMap(null);
     },
 
     updateLocationMarker: function(self) {
@@ -197,27 +239,46 @@ Map.google = {
 };
 
 Map.leaflet = {
-    addEventMarker: function(self, event) {
-        var marker = L.marker({lat: event.lat, lng: event.lng}, {icon: Map.leaflet.eventIcon(event.id)}).addTo(self.map);
-        marker.on("click", function() { if (self.onMarkerClicked) { self.onMarkerClicked(event.id);} });
+    addVenueMarker: function(self, venue) {
+        var marker = L.marker({lat: venue.lat, lng: venue.lng}, {icon: Map.leaflet.venueIcon(venue)}).addTo(self.map);
+        marker.on("click", function() { if (self.onMarkerClicked) { self.onMarkerClicked(this);} });
         return marker;
     },
 
-    centerOnMarker: function(self, marker) {
-        self.map.setView(marker.getLatLng());
+    centerOnMarker: function(self, marker, opt) {
+        if (!opt) { opt = {}; }
+        if (opt.padding) {
+            var p = {t: opt.padding[0], r: opt.padding[1], b: opt.padding[2], l: opt.padding[3]};
+            var c = self.map.project(self.map.getCenter());
+            var mc = self.map.project(marker.getLatLng());
+            self.map.panBy([mc.x + p.l - (p.l + p.r)*0.5 - c.x, mc.y - p.t + (p.t + p.b)*0.5 - c.y], {animate: true});
+        }
+        else { self.map.setView(marker.getLatLng()); }
+
     },
 
     createLocationMarker: function(self) {
         self.locMarker = L.marker(self.location, {icon: Map.leaflet.locationIcon()}).addTo(self.map);
+        self.locMarker.loop = {location: true};
         self.locMarker.on("click", function() { Map.leaflet.centerOnMarker(self, self.locMarker); });
     },
 
-    eventIcon: function(code) {
-        return L.divIcon({className: 'map-icon', iconSize: [50, 41], iconAnchor: [25, 41], popupAnchor: [0, -41], html:'<span class="letter">'+code+'</span>'});
+    venueIcon: function(venue) {
+        return L.divIcon({className: 'map-icon', iconSize: [50, 41], iconAnchor: [25, 41], popupAnchor: [0, -41], html:'<span class="letter">'+venue.events.length+'</span>'});
     },
 
-    hideMarker: function(self, marker) {
-        self.map.removeLayer(marker);
+    focusMarker: function(self, marker) {
+        if (marker) {
+            for (var i = 0; i < self.markers.length; ++i) {
+                if (self.markers[i] != marker) { self.markers[i].setOpacity(0.3); }
+            }
+            marker.setOpacity(1.0);
+        }
+        else {
+            for (var i = 0; i < self.markers.length; ++i) {
+                self.markers[i].setOpacity(1.0);
+            }
+        }
     },
 
     initialise: function(self) {
@@ -239,10 +300,6 @@ Map.leaflet = {
 
     removeMarker: function(self, marker) {
         self.map.removeLayer(marker);
-    },
-
-    showMarker: function(self, marker) {
-        marker.addTo(self.map);
     },
 
     updateLocationMarker: function(self) {
