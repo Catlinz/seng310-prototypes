@@ -153,32 +153,76 @@ P02.Map = {
 P02.Filters = {
     distance: null,
     cover: null,
+    date: null,
+    age: null,
+
+    valuesHaveBeenInitialised: false,
 
     initialise: function() {
-        P02.Filters.distance = new UI.RangeSlider($(".filter.distance .range"), [0, 5000], UI.NumberFormat.Distance());
+        P02.Filters.distance = new UI.RangeSlider($(".filter.distance .range"), UI.NumberRange.RealExp(0, 100000), UI.NumberFormat.Distance());
         P02.Filters.cover = new UI.RangeSlider($(".filter.cover .range"), [0, 20], UI.NumberFormat.Price());
+        P02.Filters.date = new UI.DateFilter(".filter.date");
+        P02.Filters.age = new UI.Checkbox(".filter.age input");
 
         $(".screen.filters .bottom-nav-bar a.apply").on("click", function() {
-            var df = $(".filter.distance .range").data("rangeSlider");
-            Filters.distance.minRadius = P02.Filters.distance.values[0];
-            Filters.distance.maxRadius = P02.Filters.distance.values[1];
+            P02.Filters.setNewValuesFromUI();
+            Screen.back();
+        });
 
-            Filters.cover.min = P02.Filters.cover.values[0];
-            Filters.cover.max = P02.Filters.cover.values[1];
-
-            if (Screen.history[Screen.history.length -1] == "map") {
-                Screen.back(null, function() { P02.Map.fetchResults(); });
-            }
-            else { Screen.back(null, function() { P02.Search.fetchResults(); }); }
+        $(".screen.filters .bottom-nav-bar a.cancel").on("click", function() {
+            P02.Filters.restoreValuesFromFilters();
+            Screen.back();
         });
 
         Filters.updateUIAfterSearch = function(stats) {
             if (!stats) { stats = {} }
-            console.log(stats);
-            if (stats.distance) { P02.Filters.distance.reset(stats.distance.min, stats.distance.max) }
-            if (stats.cover) { P02.Filters.cover.reset(stats.cover.min, stats.cover.max); }
 
+            if (!P02.Filters.valuesHaveBeenInitialised) {
+                P02.Filters.restoreValuesFromFilters();
+                P02.Filters.valuesHaveBeenInitialised = true;
+                if (stats.cover) {
+                    P02.Filters.cover.reset(stats.cover.min, stats.cover.max);
+                }
+            }
+            else {
+                if (stats.cover) {
+                    var new_min = (stats.cover.min > P02.Filters.cover.values[0]) ? P02.Filters.cover.values[0] : P02.Filters.cover.range.min;
+                    var new_max = (stats.cover.max > P02.Filters.cover.values[1]) ? P02.Filters.cover.values[1] : P02.Filters.cover.range.max;
+                    P02.Filters.cover.reset(new_min, new_max);
+                }
+            }
         }
+    },
+
+    restoreValuesFromFilters: function() {
+        P02.Filters.distance.setValues(Filters.distance.minRadius, Filters.distance.maxRadius);
+        P02.Filters.cover.reset();
+        //P02.Filters.cover.setValues(Filters.cover.min, Filters.cover.max);
+
+        P02.Filters.date.reset();
+        if (Filters.date.start && Filters.date.end) {
+            P02.Filters.date.setStartOfRange(Filters.date.start);
+            P02.Filters.date.setEndOfRange(Filters.date.end);
+        }
+        else {
+            P02.Filters.date.setDays(Filters.date.days);
+        }
+
+        P02.Filters.age.checked(Filters.age.hideAdultOnly);
+    },
+
+    setNewValuesFromUI: function() {
+        Filters.distance.minRadius = P02.Filters.distance.values[0];
+        Filters.distance.maxRadius = P02.Filters.distance.values[1];
+
+        Filters.cover.min = P02.Filters.cover.values[0];
+        Filters.cover.max = P02.Filters.cover.values[1];
+
+        Filters.date.start = P02.Filters.date.start;
+        Filters.date.end = P02.Filters.date.end;
+        Filters.date.days = P02.Filters.date.days.slice(0);
+
+        Filters.age.hideAdultOnly = P02.Filters.age.checked();
     }
 };
 

@@ -8,6 +8,7 @@ class BootStrap {
         CustomJSONMarshallers.register()
 
         dataHelperService.createDefaultVenuesAndShows()
+        dataHelperService.shiftMusicEventDates();
     }
     def destroy = {
     }

@@ -3,6 +3,7 @@
 //=require ../core/scroll.js
 //=require ../core/menu.js
 //=require ../core/dialog.js
+//=require ../core/ui.js
 //=require core
 //=require map
 //=require filters

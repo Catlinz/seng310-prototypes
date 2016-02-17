@@ -10,10 +10,10 @@ class CoverChargeFilter {
 
     Map<Long, Map<String, Double>> values;
 
-    public CoverChargeFilter(def params = null) {
-        if (!params) { params = [:] }
-        _min = params.min ?: 0;
-        _max = params.max ?: 0;
+    public CoverChargeFilter(def map = null) {
+        if (!map) { map = [:] }
+        _min = map.min ?: 0;
+        _max = map.max ?: 0;
     }
 
     public List<MusicEvent> processAndFilterResults(List<MusicEvent> results) {

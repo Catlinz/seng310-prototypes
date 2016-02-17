@@ -11,11 +11,11 @@
   .gm-scroll_wrapper
     height: 100%
   #filters-content
-    padding: 0 10px
+    padding: 0 10px 0 0
   .filter
     font-size: 10pt
     border-bottom: 1px solid rgba(0,0,0,0.1)
-    padding: 10px 8px
+    padding: 12px 8px 16px 8px
     &:last-child
       border-bottom: 0
     h3
@@ -60,3 +60,94 @@
           left: 0
         .end
           right: 0
+    .day-chooser
+      font-family: $GM_ROBOTO_FONTS
+      margin: 0 auto
+      padding: 10px 0 0 0
+      width: 284px
+      height: 40px
+      li
+        list-style: none
+        float: left
+        a
+          display: block
+          width: 36px
+          height: 40px
+          margin: 0 2px
+          background: #E0E2E4
+          +border-radius(4px)
+          font-size: 9pt
+          text-align: center
+          line-height: 40px
+          color: black
+          &:hover
+            background: #C3C5C7
+          &.selected
+            background: #3B9CFF
+            color: white
+            font-weight: 500
+
+    .or-between
+      width: 100%
+      clear: both
+      text-align: center
+      font-family: $GM_ROBOTO_FONTS
+      font-size: 11pt
+      font-weight: 500
+      padding: 10px 0
+    .date-range
+      text-align: center
+      padding: 0 8px
+      line-height: 20px
+      input
+        font-family: $GM_ROBOTO_FONTS
+        font-size: 9pt
+        max-width: 114px
+        display: block
+        height: 20px
+        line-height: 20px
+        &.date-start
+          float: left
+        &.date-end
+          float: right
+  .age
+    padding-top: 16px
+    padding-bottom: 16px
+    .input-checkbox
+      padding: 0
+      position: relative
+      display: inline-block
+      label
+        +no-select
+        font-size: 11pt
+        font-weight: bold
+      .check
+        display: block
+        position: absolute
+        top: 0
+        width: 18px
+        height: 18px
+        border: 1px solid #c7c7c7
+        +border-radius(3px)
+        background: #eeeeee
+        .fill
+          +transition(opacity 0.25s)
+          +all-opacity(0)
+          width: 14px
+          height: 14px
+          margin: 2px
+          +border-radius(3px)
+          background: #009bff
+      &.checked .check .fill
+        +all-opacity(1.0)
+      &.ch_left
+        padding-left: 30px
+        .check
+          left: 0
+      &.ch_right
+        padding-right: 30px
+        .check
+          right: 0
+
+
+

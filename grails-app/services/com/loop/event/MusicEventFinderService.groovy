@@ -1,6 +1,7 @@
 package com.loop.event
 
 import com.loop.filters.EventFilters
+import com.seng310.loop.AgeRestriction
 import com.seng310.loop.MusicEvent
 import grails.transaction.Transactional
 
@@ -34,6 +35,19 @@ class MusicEventFinderService {
                             between('lng', filters.distance.bounds.min.lng, filters.distance.bounds.max.lng)
                         }
                     }
+                }
+
+                if (filters?.date?.isValid) {
+                    or {
+                        filters.date.dates.each { d ->
+                            between('start', d.start, d.end)
+                            between('end', d.start, d.end);
+                        }
+                    }
+                }
+
+                if (filters?.age?.hideAdultOnly ) {
+                    eq('age', AgeRestriction.NO_RESTRICTION)
                 }
             }
 

@@ -2,14 +2,18 @@ package com.seng310.loop.data
 
 import com.seng310.loop.AgeRestriction
 import com.seng310.loop.EntryMethod
+import com.seng310.loop.MusicEvent
 import com.seng310.loop.VenueType
 import grails.transaction.Transactional
+import groovy.time.TimeCategory
 
 @Transactional
 class DataHelperService {
 
     def venueCreationService;
     def musicEventCreationService;
+
+
 
     def createDefaultVenuesAndShows() {
         def alix = venueCreationService.createAndSaveVenue(
@@ -1047,5 +1051,23 @@ class DataHelperService {
                 end: Date.parse("d/M/yyyy H:m", "26/02/2016 22:00")
         )
         musicEventCreationService.createAndSaveMusicEventCoverCharges(event: e94, ticket: [[cost: 15, note: "advance"]], door: [[cost: 20, note: "at the door"]])
+    }
+
+    def shiftMusicEventDates() {
+        List<MusicEvent> events = MusicEvent.list();
+
+        Date now = new Date()
+        Date first = events.min{(it.start) ? it.start : now}.start
+
+        use (TimeCategory) {
+            int daysToAdd = (now - first).days;
+            if ((first + daysToAdd.days)[Calendar.DAY_OF_MONTH] != now[Calendar.DAY_OF_MONTH]) { daysToAdd += 1; }
+
+            events.each {
+                it.start = (it.start) ? it.start + daysToAdd.days : it.start;
+                it.end = (it.end) ? it.end + daysToAdd.days : it.end;
+                it.save(failOnError: true);
+            }
+        }
     }
 }

@@ -5,12 +5,16 @@ import com.seng310.loop.MusicEvent
 class EventFilters {
     private DistanceFilter _distance = null
     private CoverChargeFilter _cover = null
+    private DateFilter _date = null;
+    private AgeFilter _age = null;
 
-    public EventFilters(def params) {
-        Map parsed = getParsedParams(params);
+    public EventFilters(def map) {
+        Map parsed = getParsedParams(map);
 
         if (parsed?.distance) { _distance = new DistanceFilter(parsed.distance) }
         if (parsed?.cover) { _cover = new CoverChargeFilter(parsed.cover) }
+        if (parsed?.date) { _date = new DateFilter(parsed.date) }
+        if (parsed?.age) { _age = new AgeFilter(parsed.age) }
     }
 
     public List<MusicEvent> processAndFilterResults(List<MusicEvent> results) {
@@ -32,8 +36,9 @@ class EventFilters {
         ]
     }
 
+    public AgeFilter getAge() { return _age; }
+    public DateFilter getDate() { return _date; }
     public DistanceFilter getDistance() { return _distance; }
-
     public CoverChargeFilter getCover() { return _cover }
 
     public static Map getParsedParams(def params) {
@@ -50,6 +55,18 @@ class EventFilters {
             parsed['cover'] = [
                     min: params.double('CoverChargeFilter.min') ?: 0,
                     max: params.double('CoverChargeFilter.max') ?: 0
+            ]
+        }
+        if (params.boolean('DateFilter')) {
+            parsed['date'] = [
+                    start: params['DateFilter.start'] ?: null,
+                    end: params['DateFilter.end'] ?: null,
+                    days: params.list('DateFilter.days[]').collect { it as int }
+            ]
+        }
+        if (params.boolean('AgeFilter')) {
+            parsed['age'] = [
+                    hideAdultOnly: params.boolean('AgeFilter.hideAdultOnly')
             ]
         }
 

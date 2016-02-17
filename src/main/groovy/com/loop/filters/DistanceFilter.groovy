@@ -14,14 +14,14 @@ class DistanceFilter {
 
     private Map<Long, Double> distances;
 
-    public DistanceFilter(def params = null) {
-        if (!params) { params = [:] }
+    public DistanceFilter(def map = null) {
+        if (!map) { map = [:] }
         _minRadius = 0.0;
         _maxRadius = 0.0;
 
-        _center = new LatLng(params.center ?: [lat: 0, lng: 0]);
-        if (params.radius ||  params.maxRadius || params.max) { doSetMaxRadius(params.radius ?: (params.maxRadius ?: params.min)); }
-        if (params.minRadius || params.min) { doSetMinRadius(params.minRadius ?: params.min) }
+        _center = new LatLng(map.center ?: [lat: 0, lng: 0]);
+        if (map.radius ||  map.maxRadius || map.max) { doSetMaxRadius(map.radius ?: (map.maxRadius ?: map.min)); }
+        if (map.minRadius || map.min) { doSetMinRadius(map.minRadius ?: map.min) }
 
         if (_minRadius < _maxRadius) { calculateBounds() }
 
