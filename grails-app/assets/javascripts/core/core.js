@@ -1,6 +1,8 @@
 //=require jquery-2.1.3.js
 if (window.GM == undefined) { window.GM = {}; }
 
+GM.notNull = function(arg) { return (arg != undefined && arg != null); };
+
 GM.hasAttr = function(elem, attr) {
     var jqElem = $(elem);
     return (jqElem.length == 1 && jqElem.attr(attr) && jqElem.attr(attr).trim().length > 0)

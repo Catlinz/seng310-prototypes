@@ -9,7 +9,7 @@ class UrlMappings {
 
         "/prototype/$id?"(controller: 'prototype', action: 'view')
 
-        "/"(controller: 'prototype', view:'index')
+        "/"(controller: 'prototype', action:'index')
         "500"(view:'/error')
         "404"(view:'/notFound')
     }

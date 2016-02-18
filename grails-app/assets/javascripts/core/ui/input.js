@@ -24,6 +24,7 @@ UI.Checkbox = function(selector) {
     }
 
     this.dom.input.hide();
+    this.h = new GM.Handlers({obj: this});
 
     var _this = this;
     this.dom.input.on('change', function(e) { _this.checked(e.target.checked, true); });
@@ -38,8 +39,13 @@ UI.Checkbox.prototype = {
             this.dom.root.removeClass('checked');
             if (checked) { this.dom.root.addClass('checked') }
             if (!fromInput) { this.dom.input[0].checked = checked }
+            this.fire("change");
         }
         return this.dom.input[0].checked;
-    }
+    },
+
+    fire: function(action) { this.h.fire(action); },
+    off: function(action) { this.h.off(action); },
+    on: function(action, func) { return this.h.on(action, func); }
 
 };

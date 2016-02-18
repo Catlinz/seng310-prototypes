@@ -1,4 +1,5 @@
 //=require numbers
+//=require ../event
 
 var UI = window.UI || {};
 
@@ -22,6 +23,8 @@ UI.RangeSlider = function(selector, range, format) {
     this.calculateHandleSize();
 
     this.format = format || UI.NumberFormat.Default();
+
+    this.h = new GM.Handlers({obj: this});
 
     if (range) {
         if (range.rangeType) { this.range = range; }
@@ -72,6 +75,8 @@ UI.RangeSlider.prototype = {
 
     endOffset: function() { return parseFloat(this.dom.end.css('right')); },
 
+    fire: function(action) { this.h.fire(action); },
+
     getEventXY: function(e) {
         if (e.originalEvent.changedTouches) {
             var touch = e.originalEvent.changedTouches[0];
@@ -108,9 +113,13 @@ UI.RangeSlider.prototype = {
         else { this.registerEventHandlers("click"); }
     },
 
+    off: function(action) { this.h.off(action); },
+    on: function(action, func) { return this.h.on(action, func); },
+
     releaseHandle: function(e) {
         this.unregisterEventHandlers("drag");
         this.dragging.dom = null;
+        this.fire("change");
     },
 
     registerEventHandlers: function(stage) {
@@ -148,15 +157,18 @@ UI.RangeSlider.prototype = {
         return parseFloat(this.dom.slider.innerWidth()) - this.handleSize.width;
     },
 
-    setValues: function(start, end) {
-        this.values[0] = start;
-        this.values[1] = end;
+    set: function(minVal, maxVal, minRange, maxRange) {
+        if (GM.notNull(minVal)) { this.values[0] = minVal; }
+        if (GM.notNull(maxVal)) { this.values[1] = maxVal; }
+        if (!GM.notNull(minRange)) { minRange = this.range.min; }
+        if (!GM.notNull(maxRange)) { maxRange = this.range.max; }
+        this.range.set(minRange, maxRange);
         this.updateUIFromValues();
     },
 
-    setMinMax: function(min, max) {
-        this.range.set(min, max);
-        this.calculateValues();
+    setValues: function(start, end) {
+        this.values[0] = start;
+        this.values[1] = end;
         this.updateUIFromValues();
     },
 

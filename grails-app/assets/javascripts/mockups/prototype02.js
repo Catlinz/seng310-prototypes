@@ -5,6 +5,7 @@ var P02 = {};
 P02.Home = {
     init: function() {
         $(".screen.home form").on('submit', function() {
+            $(".loop-search-input").blur();
             Screen.goto('search');
             return false;
         });
@@ -117,7 +118,7 @@ P02.Map = {
     },
 
     showVenue: function(id, anim) {
-        Venue.get(function(data) {
+        Events.venue(function(data) {
             $("#selected-event").html(data.html);
             var h =P02.Preview.show(anim);
             Core.map.selectVenueById(id, {padding: [P02.Map.topBarHeight,0,h,0]});
@@ -125,13 +126,13 @@ P02.Map = {
     },
 
     fetchResults: function() {
-        if (!Search.checkState("map")) {
+        if (Events.shouldFetch('map')) {
             Core.map.clearEventMarkers();
-            Search.doSearch(function(data) {
-                Search.storeState("map");
+            Events.map(function(data) {
+                Events.filters.store('map');
                 Core.map.populate(data.venues);
                 Core.map.zoomToFitAll();
-            }, {map: true});
+            });
             P02.Map.topBarHeight = parseInt($(".screen.map .top-bar").innerHeight());
         }
     },
@@ -159,77 +160,66 @@ P02.Filters = {
     valuesHaveBeenInitialised: false,
 
     initialise: function() {
-        P02.Filters.distance = new UI.RangeSlider($(".filter.distance .range"), UI.NumberRange.RealExp(0, 100000), UI.NumberFormat.Distance());
-        P02.Filters.cover = new UI.RangeSlider($(".filter.cover .range"), [0, 20], UI.NumberFormat.Price());
+        P02.Filters.distance = new UI.RangeSlider(
+            $(".filter.distance .range"),
+            UI.NumberRange.RealExp(Events.filters.saved.distance.range.min, Events.filters.saved.distance.range.max),
+            UI.NumberFormat.Distance()
+        );
+        P02.Filters.distance.on("change", function(o) {
+            Events.filters.temp.distance.set(o.values[0], o.values[1]);
+        });
+
+        P02.Filters.cover = new UI.RangeSlider($(".filter.cover .range"), Events.filters.saved.cover.range, UI.NumberFormat.Price());
+        P02.Filters.cover.on("change", function(o) {
+            Events.filters.temp.cover.set(o.values[0], o.values[1]);
+        });
+
         P02.Filters.date = new UI.DateFilter(".filter.date");
+        P02.Filters.date.on("change", function(o) {
+            Events.filters.temp.date.set(o.days, o.start, o.end);
+        });
+
         P02.Filters.age = new UI.Checkbox(".filter.age input");
+        P02.Filters.age.on("change", function(o) {
+            Events.filters.temp.age.set(o.checked());
+        });
 
         $(".screen.filters .bottom-nav-bar a.apply").on("click", function() {
-            P02.Filters.setNewValuesFromUI();
+            Events.filters.save();
             Screen.back();
         });
 
         $(".screen.filters .bottom-nav-bar a.cancel").on("click", function() {
+            Events.filters.restore();
             P02.Filters.restoreValuesFromFilters();
             Screen.back();
         });
 
-        Filters.updateUIAfterSearch = function(stats) {
-            if (!stats) { stats = {} }
-
-            if (!P02.Filters.valuesHaveBeenInitialised) {
-                P02.Filters.restoreValuesFromFilters();
-                P02.Filters.valuesHaveBeenInitialised = true;
-                if (stats.cover) {
-                    P02.Filters.cover.reset(stats.cover.min, stats.cover.max);
-                }
-            }
-            else {
-                if (stats.cover) {
-                    var new_min = (stats.cover.min > P02.Filters.cover.values[0]) ? P02.Filters.cover.values[0] : P02.Filters.cover.range.min;
-                    var new_max = (stats.cover.max > P02.Filters.cover.values[1]) ? P02.Filters.cover.values[1] : P02.Filters.cover.range.max;
-                    P02.Filters.cover.reset(new_min, new_max);
-                }
-            }
-        }
+        Events.filters.saved.on("update.P02.Filters", function() {
+            //P02.Filters.restoreValuesFromFilters()
+        });
     },
 
     restoreValuesFromFilters: function() {
-        P02.Filters.distance.setValues(Filters.distance.minRadius, Filters.distance.maxRadius);
-        P02.Filters.cover.reset();
-        //P02.Filters.cover.setValues(Filters.cover.min, Filters.cover.max);
 
-        P02.Filters.date.reset();
-        if (Filters.date.start && Filters.date.end) {
-            P02.Filters.date.setStartOfRange(Filters.date.start);
-            P02.Filters.date.setEndOfRange(Filters.date.end);
-        }
-        else {
-            P02.Filters.date.setDays(Filters.date.days);
-        }
+        P02.Filters.distance.set(
+            Events.filters.saved.distance.minRadius, Events.filters.saved.distance.maxRadius,
+            Events.filters.saved.distance.range.min, Events.filters.saved.distance.range.max
+        );
+        P02.Filters.cover.set(
+            Events.filters.saved.cover.min, Events.filters.saved.cover.max,
+            Events.filters.saved.cover.range.min, Events.filters.saved.cover.range.max
+        );
 
-        P02.Filters.age.checked(Filters.age.hideAdultOnly);
-    },
-
-    setNewValuesFromUI: function() {
-        Filters.distance.minRadius = P02.Filters.distance.values[0];
-        Filters.distance.maxRadius = P02.Filters.distance.values[1];
-
-        Filters.cover.min = P02.Filters.cover.values[0];
-        Filters.cover.max = P02.Filters.cover.values[1];
-
-        Filters.date.start = P02.Filters.date.start;
-        Filters.date.end = P02.Filters.date.end;
-        Filters.date.days = P02.Filters.date.days.slice(0);
-
-        Filters.age.hideAdultOnly = P02.Filters.age.checked();
+        P02.Filters.date.set(Events.filters.saved.date.days, Events.filters.saved.date.start, Events.filters.saved.date.end);
+        P02.Filters.age.checked(Events.filters.saved.age.hideAdultOnly);
     }
 };
 
 
 Core.screens.home = {
     onShow: function() {
-        Search.reset();
+        Events.setFilterDefaults();
     }
 };
 
@@ -252,6 +242,8 @@ Core.screens.map = {
 
 Core.screens.filters = {
     onShow: function() {
+        Events.filters.temp.copy(Events.filters.saved);
+        P02.Filters.restoreValuesFromFilters();
         $(".screen.filters .gm-scrollable").data('scroll').updateViewAndContentSize();
     }
 };
@@ -271,15 +263,15 @@ P02.Search = {
     },
 
     fetchResults: function() {
-        if (!Search.checkState("search")) {
+        if (Events.shouldFetch("search")) {
             P02.Search.clearResults();
-            Search.doSearch(function(data) {
-                Search.storeState("search");
+            Events.list(function(data) {
+                Events.filters.store("search");
                 var content = $("#events-content");
                 content.html(data.html);
                 content.data('scroll').updateViewAndContentSize();
                 content.data('scroll').setScroll(0)
-            }, {list: true});
+            });
         }
     },
 

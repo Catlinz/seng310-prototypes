@@ -7,6 +7,29 @@ class EventsController {
 
     def musicEventFinderService
 
+    def filterDefaults() {
+        int maxCoverBounds = musicEventFinderService.getCoverChargeMaxBound();
+        def data = [
+                'DistanceFilter' : [
+                        minRadius: 0,
+                        maxRadius: 100000,
+                        range: [0, 100000],
+                        center: [lat: 0, lng: 0]
+                ],
+                'CoverChargeFilter': [
+                        min: 0, max: maxCoverBounds,
+                        range: [min: 0, max: maxCoverBounds]
+                ],
+                'DateFilter': [
+                        days: [0],
+                        start: null, end: null
+                ],
+                'AgeFilter':[ hideAdultOnly: false ]
+        ]
+
+        render data as JSON;
+    }
+
     def get() {
         MusicEvent event = MusicEvent.get(params.long('id'));
         Map data
@@ -29,9 +52,8 @@ class EventsController {
     }
 
     def list() {
-        String search = params.value;
         EventFilters ef = new EventFilters(params)
-        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(search, ef, params);
+        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(ef, params);
 
         def data = [
                 //events: events.collect { [id: it.id, lat: it.venue.lat, lng: it.venue.lng, venue: it.venue.id] },
@@ -42,9 +64,8 @@ class EventsController {
     }
 
     def map() {
-        String search = params.value;
         EventFilters ef = new EventFilters(params)
-        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(search, ef, params);
+        List<MusicEvent> events = musicEventFinderService.searchForMusicEvents(ef, params);
 
         def venues = events.collect{ [id: it.venue.id, name: it.venue.name, lat: it.venue.lat, lng: it.venue.lng, events: []] }.unique{ it.id }
         venues.each{ v->

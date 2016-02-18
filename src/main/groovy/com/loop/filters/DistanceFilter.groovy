@@ -96,8 +96,8 @@ class DistanceFilter {
     }
 
     private void doSetMaxRadius(def metres) {
-        if (_maxRadius < (_minRadius + 1)) { _minRadius = _maxRadius - 1 }
-        _maxRadius = metres;
+        if (metres < _minRadius) { _minRadius = metres - 1 }
+        _maxRadius = metres
     }
 
     private void doSetMinRadius(def metres) {

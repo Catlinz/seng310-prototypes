@@ -88,4 +88,7 @@ class CoverChargeFilter {
     }
 
     public boolean getIsValid() { return _min < _max; }
+
+    public double getMin() { return _min }
+    public double getMax() { return _max }
 }

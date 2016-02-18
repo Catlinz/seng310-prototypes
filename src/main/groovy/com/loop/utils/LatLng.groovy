@@ -20,4 +20,8 @@ class LatLng {
     public void setLat(double lat) { _lat = lat; }
     public void setLng(double lng) { _lng = lng; }
 
+    public String toString() {
+        return "[lat: ${_lat}, lng: ${_lng}]"
+    }
+
 }

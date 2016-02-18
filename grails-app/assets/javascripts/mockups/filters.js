@@ -1,68 +1,85 @@
+//=require ../core/event
 
+function Filters() {
+    this.distance = new Filters.DistanceFilter(0, 100000);
+    this.cover = new Filters.CoverChargeFilter(0, 100);
+    this.date = new Filters.DateFilter([0]);
+    this.age = new Filters.AgeFilter(false);
+    this.text = new Filters.TextFilter();
+    this.h = new GM.Handlers({obj: this});
+    this.LoopType = Filters.Type;
+}
+Filters.Type = "Filters";
 
-var Filters = {
-    distance: null,
-    cover: null,
-    date: null,
-    age: null,
+Filters.prototype = {
+    constructor: Filters,
 
-    updateUIAfterSearch: function(stats) {},
-
-    setParams: function(params) {
-        params = Filters.distance.setParams(params);
-        params = Filters.cover.setParams(params);
-        params = Filters.date.setParams(params);
-        params = Filters.age.setParams(params);
-        return params;
+    copy: function(from) {
+        this.distance.copy(from.distance);
+        this.cover.copy(from.cover);
+        this.date.copy(from.date);
+        this.age.copy(from.age);
+        this.text.copy(from.text);
     },
 
+    fire: function(action) { this.h.fire(action); },
+
     hashCode: function() {
-        var str = Filters.distance.str() + Filters.cover.str() + Filters.date.str() + Filters.age.str();
+        var str = this.distance.str() + this.cover.str() + this.date.str() + this.age.str() + this.text.str();
         return str.hashCode()
     },
 
-    initialise: function() {
-        Filters.distance = new Filters.DistanceFilter();
-        Filters.cover = new Filters.CoverChargeFilter();
-        Filters.date = new Filters.DateFilter();
-        Filters.age = new Filters.AgeFilter();
+    off: function(action) { this.h.off(action); },
+    on: function(action, func) { return this.h.on(action, func); },
+
+    setParams: function(params) {
+        params = this.distance.setParams(params);
+        params = this.cover.setParams(params);
+        params = this.date.setParams(params);
+        params = this.age.setParams(params);
+        params = this.text.setParams(params);
+        return params;
     },
 
-    DistanceFilter: function(center, maxRadiusMetres, minRadiusMetres) {
-        this.center = center || {lat: 0, lng: 0};
-        this.maxRadius = maxRadiusMetres || 100000;
-        this.minRadius = minRadiusMetres || 0;
+    setToDefaults: function(values) {
+        if (values.DistanceFilter) { this.distance.copy(values.DistanceFilter); }
+        if (values.CoverChargeFilter) { this.cover.copy(values.CoverChargeFilter); }
+        if (values.DateFilter) { this.date.copy(values.DateFilter); }
+        if (values.AgeFilter) { this.age.copy(values.AgeFilter); }
+        if (values.TextFilter) { this.text.copy(values.TextFilter); }
+        this.fire("update");
     },
 
-    CoverChargeFilter: function(min, max) {
-        this.min = min || 0;
-        this.max = max || 0;
-    },
-
-    DateFilter: function() {
-        this.days = [0];
-        this.start = null;
-        this.end = null;
-    },
-
-    AgeFilter: function() {
-        this.hideAdultOnly = false;
+    updateAfterFetch: function(data) {
+        this.fire("update");
     }
 };
 
+Filters.DistanceFilter = function(minRange, maxRange) {
+    this.range = {min: minRange, max: maxRange};
+    this.center = {lat: 0, lng: 0};
+    this.minRadius = minRange;
+    this.maxRadius = maxRange;
+    this.LoopType = Filters.DistanceFilter.Type;
+};
+Filters.DistanceFilter.Type = "DistanceFilter";
 Filters.DistanceFilter.prototype = {
     constructor: Filters.DistanceFilter,
-
-    str: function() {
-        if (this.isValid()) {
-            return 'DF' + this.center.lat + ' ' + this.center.lng + ' ' + this.maxRadius + ' ' + this.minRadius
-        }
-        else { return 'DF' }
-    },
-
+    str: function() { return 'DF'+this.center.lat+' '+this.center.lng+' '+this.maxRadius+' '+this.minRadius; },
     isValid: function() { return this.minRadius != this.maxRadius; },
 
-    reset: function() { this.maxRadius = 100000;  this.minRadius = 0;  this.center = {lat: 0, lng: 0}; },
+    copy: function(from) {
+        this.range = {min: from.range.min, max: from.range.max};
+        this.center = {lat: from.center.lat, lng: from.center.lng};
+        this.minRadius = from.minRadius;  this.maxRadius = from.maxRadius;
+    },
+
+    set: function(min, max, center, range) {
+        if (min != undefined && min != null) { this.minRadius = min; }
+        if (max != undefined && max != null) { this.maxRadius = max; }
+        if (center) { this.center = {lat: center.lat, lng: center.lng}; }
+        if (range) { this.range = {min: range.min, max: range.max}; }
+    },
 
     setParams: function(params) {
         params['DistanceFilter'] = true;
@@ -76,16 +93,28 @@ Filters.DistanceFilter.prototype = {
     }
 };
 
+Filters.CoverChargeFilter = function(minRange, maxRange) {
+    this.range = {min: minRange, max: maxRange};
+    this.min = minRange;
+    this.max = maxRange;
+    this.LoopType = Filters.CoverChargeFilter.Type;
+};
+Filters.CoverChargeFilter.Type = "CoverChargeFilter";
 Filters.CoverChargeFilter.prototype = {
     constructor: Filters.CoverChargeFilter,
+    str: function() { return 'CCF' + this.min + ' ' + this.max },
+    isValid: function() { return this.min < this.max; },
 
-    str: function() {
-        if (this.isValid()) { return 'CCF' + this.min + ' ' + this.max }
-        else { return 'CCF' }
+    copy: function(from) {
+        this.range = {min: from.range.min, max: from.range.max};
+        this.min = from.min;  this.max = from.max;
     },
 
-    isValid: function() { return this.min < this.max; },
-    reset: function() { this.min = 0; this.max = 0; },
+    set: function(min, max, range) {
+        if (min != undefined && min != null) { this.min = min; }
+        if (max != undefined && max != null) { this.max = max; }
+        if (range) { this.range = {min: range.min, max: range.max}; }
+    },
 
     setParams: function(params) {
         params['CoverChargeFilter'] = true;
@@ -97,16 +126,34 @@ Filters.CoverChargeFilter.prototype = {
     }
 };
 
+Filters.DateFilter = function(days, start, end) {
+    this.days = days || [];
+    this.start = start || null;
+    this.end = end || null;
+    this.LoopType = Filters.DateFilter.Type;
+};
+Filters.DateFilter.Type = "DateFilter";
 Filters.DateFilter.prototype = {
     constructor: Filters.DateFilter,
+    str: function() { return 'DTF' + this.days.toString() + ' ' + this.start + ' ' +this.end; },
+    isValid: function() { return this.days.length > 0 || (this.start != null && this.end != null); },
 
-    str: function() {
-        if (this.isValid()) { return 'DTF' + this.days.toString() + ' ' + this.start + ' ' +this.end}
-        else { return 'DTF'}
+    copy: function(from) {
+        this.days = from.days.slice(0);
+        this.start = from.start;  this.end = from.end;
     },
 
-    isValid: function() { return this.days.length > 0 || (this.start != null && this.end != null); },
-    reset: function() { this.days = [0];  this.start = null;  this.end = null; },
+    set: function(days, start, end) {
+        if (days && days.length > 0) {
+            this.days = days;
+            this.start = null;  this.end = null;
+        }
+        else {
+            this.days = [];
+            this.start = start || null;
+            this.end = end || null;
+        }
+    },
 
     setParams: function(params) {
         if (this.isValid()) {
@@ -115,20 +162,26 @@ Filters.DateFilter.prototype = {
                 params['DateFilter.start'] = this.start;
                 params['DateFilter.end'] = this.end;
             }
-            else {
-                params['DateFilter.days'] = this.days;
-            }
+            else { params['DateFilter.days'] = this.days; }
         }
         return params;
     }
 };
 
+Filters.AgeFilter = function(hideAdultOnly) {
+    this.hideAdultOnly = hideAdultOnly || false;
+    this.LoopType = Filters.AgeFilter.Type;
+};
+Filters.AgeFilter.Type = "AgeFilter";
 Filters.AgeFilter.prototype = {
     constructor: Filters.AgeFilter,
-
     str: function() { return 'AF'+this.hideAdultOnly; },
     isValid: function() { return true; },
-    reset: function() { this.hideAdultOnly = true; },
+    copy: function(from) { this.hideAdultOnly = from.hideAdultOnly; },
+
+    set: function(hideAdultOnly) {
+        this.hideAdultOnly = hideAdultOnly;
+    },
 
     setParams: function(params) {
         params['AgeFilter'] = true;
@@ -137,14 +190,25 @@ Filters.AgeFilter.prototype = {
     }
 };
 
+Filters.TextFilter = function() {
+    this.value = "";
+    this.LoopType = Filters.TextFilter.Type;
+};
+Filters.TextFilter.Type = "TextFilter";
+Filters.TextFilter.prototype = {
+    constructor: Filters.TextFilter,
+    str: function() { return 'TF'+this.value.trim(); },
+    isValid: function() { return this.value.trim() != ""; },
+    copy: function(from) { this.value = from.value; },
 
-
-
-
-
-
-
-
+    setParams: function(params) {
+        if (this.isValid()) {
+            params['TextFilter'] = true;
+            params['TextFilter.value'] = this.value.trim();
+        }
+        return params;
+    }
+};
 
 UI.DateFilter = function(selector) {
     var jq = $(selector);
@@ -159,6 +223,8 @@ UI.DateFilter = function(selector) {
 
     this.start = null;
     this.end = null;
+
+    this.h = new GM.Handlers({obj: this});
 
     this.initialise();
 };
@@ -175,6 +241,8 @@ UI.DateFilter.prototype = {
         this.days = [];
         this.dom.days.removeClass('selected');
     },
+
+    fire: function(action) { this.h.fire(action); },
 
     initialise: function() {
         this.initialiseDayChooser();
@@ -207,6 +275,9 @@ UI.DateFilter.prototype = {
         this.dom.days.on('click', function() { _this.toggleDay(this); })
     },
 
+    off: function(action) { this.h.off(action); },
+    on: function(action, func) { return this.h.on(action, func); },
+
     reset: function() {
         this.dom.days.removeClass('selected');
         this.dom.end.val("");
@@ -214,6 +285,20 @@ UI.DateFilter.prototype = {
         this.start = null;
         this.end = null;
         this.days = [];
+    },
+
+    set: function(days, start, end) {
+        if (days && days.length > 0) {
+            this.setDays(days);
+            this.unsetDateRange();
+        }
+        else {
+            this.deselectDays();
+            this.start = start;
+            this.end = end;
+            this.dom.start.val(start);
+            this.dom.end.val(end);
+        }
     },
 
     setDays: function(days) {
@@ -235,6 +320,7 @@ UI.DateFilter.prototype = {
                 this.dom.start.val(date)
             }
             this.deselectDays();
+            this.fire("change");
         }
     },
 
@@ -246,6 +332,7 @@ UI.DateFilter.prototype = {
                 this.dom.end.val(date)
             }
             this.deselectDays();
+            this.fire("change");
         }
     },
 
@@ -263,6 +350,7 @@ UI.DateFilter.prototype = {
         if (len < this.days.length) { jq.addClass('selected'); }
 
         this.unsetDateRange();
+        this.fire("change");
     },
 
     unsetDateRange: function() {

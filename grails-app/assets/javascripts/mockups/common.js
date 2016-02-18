@@ -1,12 +1,13 @@
-//=require ../core/forms.js
-//=require ../core/ajax.js
-//=require ../core/scroll.js
-//=require ../core/menu.js
-//=require ../core/dialog.js
-//=require ../core/ui.js
+//=require ../core/forms
+//=require ../core/ajax
+//=require ../core/scroll
+//=require ../core/menu
+//=require ../core/dialog
+//=require ../core/ui
 //=require core
 //=require map
 //=require filters
+//=require events
 //=require_self
 
 
@@ -126,127 +127,36 @@ var Location = {
 };
 
 var Search = {
-    value: "",
     keys: {
         ignore: [19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40],
         enter: 13
     },
-    state: {},
-
-    checkState: function(id) {
-        if (Search.state[id]) {
-            if ((Search.state[id].value == Search.value) &&
-                (Search.state[id].filters == Filters.hashCode())) {
-                return true;
-            }
-        }
-        return false
-    },
-
-    doSearch: function(success, params) {
-        if (!params) { params = {} }
-        params = Filters.setParams(params);
-
-        if (Search.value != "") { params.value = Search.value; }
-        $("input.loop-search-input").blur();
-        var fn = function(data) {
-            Filters.updateUIAfterSearch(data.stats);
-            if (success) { success(data); }
-        };
-        if (params.map) { Events.map(fn, params); }
-        else { Events.list(fn, params); }
-
-    },
-
-    isEmpty: function() { return Search.value.trim() == ""; },
 
     init: function() {
         var jq = $(".loop-search-input");
         jq.on("change.loop", function() {
-            Search.value = $(this).val();
+            Events.filters.setSearchText($(this).val());
             Search.synchroniseInputs();
         });
         jq.on("keyup.loop", function(e) {
             if (e.which == Search.keys.enter) {
-                Search.value = $(e.target).val();
+                Events.filters.setSearchText($(e.target).val());
                 Search.synchroniseInputs();
             }
         });
     },
 
     reset: function() {
-        Search.value = "";
+        Events.filters.setSearchText("");
         Search.synchroniseInputs();
     },
 
     synchroniseInputs: function(value) {
-        if (!value) { value = Search.value; }
+        if (!value) { value = Events.filters.saved.text.value; }
         var s = $(".loop-search-input");
         s.each(function(i, elem) {
             $(elem).val(value);
             GM.Forms.checkLabel(elem);
-        });
-    },
-
-    storeState: function(id) {
-        Search.state[id] = {value: Search.value, filters: Filters.hashCode()};
-    }
-};
-
-var Events = {
-
-    init: function() {
-
-    },
-
-    get: function(success, params) { /* { html:<T|F>, details:<T|F>, id: } */
-        if (!params) { params = {}; }
-        params.p = Core.id;
-        GM.Ajax.get('/events/get', params, {
-            success: function(data, textStatus, jqXHR) {
-                if (success) { success(data); }
-            },
-            complete: function(jqXHR, textStatus) {}
-        });
-    },
-
-    /** params: { value:String } **/
-    list: function(success, params) {
-        if (!params) { params = {}; }
-        params.p = Core.id;
-        GM.Ajax.get('/events/list', params, {
-            success: function(data, textStatus, jqXHR) {
-                if (success) { success(data); }
-            },
-            complete: function(jqXHR, textStatus) {}
-        });
-    },
-
-    /** params: { value:String } **/
-    map: function(success, params) {
-        GM.Ajax.get('/events/map', params, {
-            success: function(data, textStatus, jqXHR) {
-                if (success) { success(data); }
-            },
-            complete: function(jqXHR, textStatus) {}
-        });
-    }
-};
-
-var Venue = {
-
-    init: function() {
-
-    },
-
-    get: function(success, params) { /* { html:<T|F>, details:<T|F>, id: } */
-        if (!params) { params = {}; }
-        params.p = Core.id;
-        GM.Ajax.get('/venue/get', params, {
-            success: function(data, textStatus, jqXHR) {
-                if (success) { success(data); }
-            },
-            complete: function(jqXHR, textStatus) {}
         });
     }
 };
@@ -257,10 +167,8 @@ $(document).ready(function() {
     GM.Scroll.initScrollableContent();
     Screen.init();
     Search.init();
-    Events.init();
-    Venue.init();
     Core.map = new Map('map');
 
-    Filters.initialise();
-    Filters.distance.center = Core.map.location;
+    Events.setFilterDefaults();
+    Events.filters.setLocation(Core.map.location);
 });

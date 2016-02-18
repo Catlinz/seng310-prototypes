@@ -26,7 +26,7 @@ class DateFilter {
             Date now = nc.getTime();
             map.days.each {int d ->
                 use (TimeCategory) {
-                    _dates.add([start: now + d.days, end: now + d.days + 1.days])
+                    _dates.add([start: now + d.days, end: now + d.days + 23.hours + 59.minutes + 59.seconds])
                 }
             }
         }
@@ -34,7 +34,13 @@ class DateFilter {
 
     public ArrayList<Map<String, Date>> getDates() { return _dates; }
 
-    public List<MusicEvent> processAndFilterResults(List<MusicEvent> results) { return results; }
+    public List<MusicEvent> processAndFilterResults(List<MusicEvent> results) {
+        return results.findAll { e ->
+            boolean good = false
+            _dates.each { d -> if ( (e.start >= d.start && e.start <= d.end)) { good = true; } }
+            return good;
+        }
+    }
     public void postProcess(List<MusicEvent> results) {}
     public def getStats() { return null }
     public boolean getIsValid() { return _dates && _dates.size() > 0; }

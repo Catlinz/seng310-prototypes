@@ -28,6 +28,9 @@ class MusicEvent {
     }
 
     transient public LatLng location() { return new LatLng(venue.lat, venue.lng) }
+    transient public int getDay() { return (start) ? start[Calendar.DAY_OF_MONTH] : -1 }
+    transient public int getMonth() { return (start) ? start[Calendar.MONTH] : -1 }
+    transient public int getYear() { return (start) ? start[Calendar.YEAR] : -1}
 
     static void registerJSONMarshaller() {
         JSON.registerObjectMarshaller(MusicEvent) { MusicEvent e ->
